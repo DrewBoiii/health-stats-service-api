@@ -1,12 +1,13 @@
 package dev.drewboiii.healthstatsserviceapi.controller
 
+import dev.drewboiii.healthstatsserviceapi.client.Covid19Client
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class HelloWorldController {
+class HelloWorldController(val client: Covid19Client) {
 
-    @GetMapping("/greetings")
-    fun hello() = "Hello World"
+    @GetMapping("/test")
+    fun get() = client.getCountries()
 
 }
