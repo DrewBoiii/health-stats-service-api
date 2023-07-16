@@ -16,3 +16,8 @@ data class HealthServiceTodayStatsResponse(
     val vaccinated: Long?,
     val day: LocalDate = LocalDate.now()
 )
+
+data class HealthServiceAvailableCountriesResponse(
+    val countries: Set<String>
+)
+

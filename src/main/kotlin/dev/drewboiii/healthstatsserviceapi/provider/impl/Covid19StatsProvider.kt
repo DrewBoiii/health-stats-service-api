@@ -2,6 +2,7 @@ package dev.drewboiii.healthstatsserviceapi.provider.impl
 
 import dev.drewboiii.healthstatsserviceapi.client.Covid19Client
 import dev.drewboiii.healthstatsserviceapi.dto.HealthServiceTodayStatsResponse
+import dev.drewboiii.healthstatsserviceapi.dto.toDto
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProvider
 import org.springframework.stereotype.Component
 
@@ -9,24 +10,24 @@ import org.springframework.stereotype.Component
 class Covid19StatsProvider(val client: Covid19Client) : HealthStatsProvider {
 
     override fun getTodayStats(country: String): HealthServiceTodayStatsResponse {
-        val statisticsResponse = client.getStatistics(country)
-        val response = statisticsResponse.response
-        val stats = response.firstOrNull()
+        val (response, parameters, get, results, errors) = client.getStatistics(country)
 
-        return HealthServiceTodayStatsResponse(
-            country = country,
-            continent = stats?.continent,
-            newCases = stats?.cases?.new,
-            criticalCases = stats?.cases?.critical,
-            totalInfected = stats?.cases?.total,
-            newDeaths = stats?.deaths?.new,
-            totalDeaths = stats?.deaths?.total,
-            vaccinated = stats?.tests?.total
-        )
+        if (errors.isNotEmpty()) {
+            throw RuntimeException("Unknown client error")
+        }
+
+        val stats = if (results > 0) response.firstOrNull() else throw RuntimeException("No data")
+
+        return stats?.toDto(country) ?: throw RuntimeException("No stats")
     }
 
     override fun getAvailableCountries(): Set<String> {
-        // TODO: get from db
-        return setOf("Russia", "USA")
+        val (response, parameters, get, results, errors) = client.getCountries()
+
+        if (errors.isNotEmpty()) {
+            throw RuntimeException("Unknown client error")
+        }
+
+        return if (results > 1) response.toSet() else emptySet()
     }
 }

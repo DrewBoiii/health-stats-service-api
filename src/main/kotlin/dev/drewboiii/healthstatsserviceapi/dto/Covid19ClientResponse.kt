@@ -34,7 +34,7 @@ data class Covid19StatisticsResponse(
         val time: String
     ) {
         data class Cases(
-            val new: String,
+            val new: String?,
             val active: Long,
             val critical: Long?,
             val recovered: Long,
@@ -42,12 +42,14 @@ data class Covid19StatisticsResponse(
             val oneMillionPopulation: String,
             val total: Long
         )
+
         data class Deaths(
             val new: String,
             @field:JsonAlias("1M_pop")
             val oneMillionPopulation: String,
             val total: Long
         )
+
         data class Tests(
             @field:JsonAlias("1M_pop")
             val oneMillionPopulation: String,
@@ -60,3 +62,15 @@ data class Covid19StatisticsResponse(
     )
 
 }
+
+fun Covid19StatisticsResponse.Stats.toDto(country: String): HealthServiceTodayStatsResponse =
+    HealthServiceTodayStatsResponse(
+        country = country,
+        continent = this.continent,
+        newCases = this.cases.new,
+        criticalCases = this.cases.critical,
+        totalInfected = this.cases.total,
+        newDeaths = this.deaths.new,
+        totalDeaths = this.deaths.total,
+        vaccinated = this.tests.total
+    )

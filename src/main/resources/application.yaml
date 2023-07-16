@@ -1,3 +1,26 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql:health-stats-service-api
+    username: postgres
+    password: postgres
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  cache:
+    cache-names: CacheableApplicationRepository
+    caffeine:
+      spec: maximumSize=10,expireAfterWrite=10m,recordStats
+    today-stats-cache: maximumSize=10,expireAfterWrite=1d,recordStats
+    covid-countries-cache: maximumSize=10,expireAfterWrite=7d,recordStats
+    covid-today-stats-cache: maximumSize=10,expireAfterWrite=1d,recordStats
+
+application:
+  cache:
+    enabled: true
+
 feign:
   client:
     config:
