@@ -18,7 +18,6 @@ data class HealthServiceTodayStatsResponse(
 )
 
 data class HealthServiceAvailableCountriesResponse(
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     val countries: Set<String>
 )
 
