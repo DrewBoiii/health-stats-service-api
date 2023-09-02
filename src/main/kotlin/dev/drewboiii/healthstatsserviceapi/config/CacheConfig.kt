@@ -2,6 +2,7 @@ package dev.drewboiii.healthstatsserviceapi.config
 
 import com.github.benmanes.caffeine.cache.Cache
 import com.github.benmanes.caffeine.cache.Caffeine
+import dev.drewboiii.healthstatsserviceapi.config.properties.CachePropertiesMap
 import org.springframework.boot.autoconfigure.cache.CacheProperties
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -39,9 +40,7 @@ class CacheConfig(val cachePropertiesMap: CachePropertiesMap) {
 
     private fun caffeineCaches(): Map<String, Cache<Any, Any>> {
         return cachePropertiesMap.cache.entries.asSequence()
-            .filter { cacheNameSpec ->
-                !EXCLUDED_CACHE_NAMES.contains(cacheNameSpec.key)
-            }
+            .filterNot { cacheNameSpec -> EXCLUDED_CACHE_NAMES.contains(cacheNameSpec.key) }
             .map { cacheNameSpec ->
                 val cacheName: String = cacheNameSpec.key
                 val spec: String = cacheNameSpec.value

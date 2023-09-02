@@ -28,6 +28,6 @@ class Covid19StatsProvider(val client: Covid19Client) : HealthStatsProvider {
             throw RuntimeException("Unknown client error")
         }
 
-        return if (results > 1) response.toSet() else emptySet()
+        return if (results > 0) response else emptySet()
     }
 }

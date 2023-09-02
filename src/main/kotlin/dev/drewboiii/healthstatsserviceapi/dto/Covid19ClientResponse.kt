@@ -4,25 +4,24 @@ import com.fasterxml.jackson.annotation.JsonAlias
 
 open class Covid19BaseResponse(
     open val get: String,
-    open val results: Int,
-    open val errors: List<Any>
+    open val results: Int
 )
 
 data class Covid19CountriesResponse(
-    val response: List<String>,
-    val parameters: List<Any>,
+    val response: Set<String>,
+    val parameters: Any,
     override val get: String,
     override val results: Int,
-    override val errors: List<Any>
-) : Covid19BaseResponse(get, results, errors)
+    val errors: List<Any>
+) : Covid19BaseResponse(get, results)
 
 data class Covid19StatisticsResponse(
     val response: List<Stats>,
     val parameters: Parameters,
     override val get: String,
     override val results: Int,
-    override val errors: List<Any>
-) : Covid19BaseResponse(get, results, errors) {
+    val errors: List<Any>
+) : Covid19BaseResponse(get, results) {
     data class Stats(
         val continent: String,
         val country: String,

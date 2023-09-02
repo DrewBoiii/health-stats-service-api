@@ -1,8 +1,8 @@
 package dev.drewboiii.healthstatsserviceapi.service
 
-import dev.drewboiii.healthstatsserviceapi.dto.HealthServiceAvailableCountriesResponse
 import dev.drewboiii.healthstatsserviceapi.dto.HealthServiceTodayStatsResponse
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProvider
+import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
 import org.springframework.stereotype.Service
 
 @Service
@@ -22,13 +22,13 @@ class HealthStatsService(
         return statsProvider.getTodayStats(country)
     }
 
-    fun getAvailableCountries(providerName: String): HealthServiceAvailableCountriesResponse {
+    fun getAvailableCountries(providerName: String): Set<String> {
         val statsProvider = provider[providerName] ?: throw RuntimeException("Unknown provider") // TODO: Exception class
 
         // TODO: add paging
-        return HealthServiceAvailableCountriesResponse(
-            countries = statsProvider.getAvailableCountries()
-        )
+        return statsProvider.getAvailableCountries()
     }
+
+    fun getAvailableProviders() = HealthStatsProviderType.values().map { it.name }.toSet()
 
 }

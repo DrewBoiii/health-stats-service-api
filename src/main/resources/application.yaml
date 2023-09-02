@@ -20,6 +20,11 @@ spring:
 application:
   cache:
     enabled: true
+  client:
+    interceptor:
+      covid19:
+        api-key: ${HEALTH_STATS_SERVICE_APIKEY}
+        api-host: ${HEALTH_STATS_SERVICE_APIHOST}
 
 feign:
   client:

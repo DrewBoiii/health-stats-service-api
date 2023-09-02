@@ -17,6 +17,6 @@ interface Covid19Client {
 
     @GetMapping("/statistics")
     @Cacheable(cacheNames = ["covid-today-stats-cache"], cacheManager = "MainCacheManager", key = "{#country}")
-    fun getStatistics(@RequestParam country: String) : Covid19StatisticsResponse
+    fun getStatistics(@RequestParam country: String): Covid19StatisticsResponse
 
 }

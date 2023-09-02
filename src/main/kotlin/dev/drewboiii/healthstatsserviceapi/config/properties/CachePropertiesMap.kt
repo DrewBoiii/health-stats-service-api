@@ -1,4 +1,4 @@
-package dev.drewboiii.healthstatsserviceapi.config
+package dev.drewboiii.healthstatsserviceapi.config.properties
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 
