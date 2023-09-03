@@ -10,11 +10,13 @@ data class HealthServiceTodayStatsResponse(
     val country: String,
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     val continent: String? = null,
-    val newCases: String?,
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    val newCases: String? = null,
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     val criticalCases: Long? = null,
     val totalInfected: Long?,
-    val newDeaths: String?,
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    val newDeaths: String? = null,
     val totalDeaths: Long?,
     val vaccinated: Long?,
     val day: LocalDate = LocalDate.now()

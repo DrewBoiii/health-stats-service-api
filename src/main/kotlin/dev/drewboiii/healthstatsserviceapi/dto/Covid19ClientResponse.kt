@@ -43,7 +43,7 @@ data class Covid19StatisticsResponse(
         )
 
         data class Deaths(
-            val new: String,
+            val new: String?,
             @field:JsonAlias("1M_pop")
             val oneMillionPopulation: String,
             val total: Long

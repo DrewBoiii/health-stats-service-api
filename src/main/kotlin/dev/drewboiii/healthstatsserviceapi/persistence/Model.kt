@@ -23,8 +23,8 @@ data class DayStatistics(
     private val vaccinated: Long?
 )
 
-@Table("available_countries")
-data class AvailableCountries(
+@Table("countries")
+data class Countries(
     @PrimaryKeyColumn(name = "provider", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
     private val provider: HealthStatsProviderType,
     private val countries: List<String>

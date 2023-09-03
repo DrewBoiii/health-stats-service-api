@@ -32,8 +32,11 @@ class HealthStatsService(
         val statsProvider =
             provider[providerName] ?: throw RuntimeException("Unknown provider") // TODO: Exception class
 
-        // TODO: add paging
-        return statsProvider.getAvailableCountries()
+        val countries = statsProvider.getAvailableCountries()
+
+        cassandraService.saveAvailableCountries(HealthStatsProviderType.valueOf(providerName), countries.toList())
+
+        return countries
     }
 
     fun getAvailableProviders() = HealthStatsProviderType.values().map { it.name }.toSet()

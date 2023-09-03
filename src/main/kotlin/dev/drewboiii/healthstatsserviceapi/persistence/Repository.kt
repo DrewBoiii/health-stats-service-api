@@ -4,3 +4,5 @@ import org.springframework.data.cassandra.repository.CassandraRepository
 import java.util.UUID
 
 interface DayStatisticsCassandraRepository: CassandraRepository<DayStatistics, UUID>
+
+interface CountriesCassandraRepository: CassandraRepository<Countries, String>
