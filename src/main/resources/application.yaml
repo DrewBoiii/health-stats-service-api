@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-circular-references: true
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql:health-stats-service-api
@@ -21,6 +23,11 @@ spring:
     contact-points: localhost
     port: 9042
     local-datacenter: dc1
+    connection:
+      connect-timeout: 60s
+      init-query-timeout: 60s
+    request:
+      timeout: 60s
 
 application:
   cache:
