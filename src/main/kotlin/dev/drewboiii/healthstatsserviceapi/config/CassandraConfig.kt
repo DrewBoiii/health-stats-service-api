@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.ClassPathResource
 import org.springframework.data.cassandra.config.AbstractCassandraConfiguration
 import org.springframework.data.cassandra.core.convert.CassandraCustomConversions
+import org.springframework.data.cassandra.core.cql.session.init.KeyspacePopulator
+import org.springframework.data.cassandra.core.cql.session.init.ResourceKeyspacePopulator
 import org.springframework.util.StreamUtils
 import java.nio.charset.StandardCharsets
 
@@ -20,6 +22,9 @@ class CassandraConfig(
 ) : AbstractCassandraConfiguration() {
 
     override fun getKeyspaceName(): String = cassandraProperties.keyspaceName
+
+    override fun keyspacePopulator(): KeyspacePopulator =
+        ResourceKeyspacePopulator(ClassPathResource("schema/cassandra_keyspace.cql"))
 
     @Bean
     override fun customConversions(): CassandraCustomConversions =

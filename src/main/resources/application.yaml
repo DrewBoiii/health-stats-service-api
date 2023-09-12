@@ -1,11 +1,9 @@
 spring:
-  main:
-    allow-circular-references: true
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql:health-stats-service-api
-    username: postgres
-    password: postgres
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
   jpa:
     generate-ddl: true
     hibernate:
@@ -19,10 +17,11 @@ spring:
     covid-countries-cache: maximumSize=10,expireAfterWrite=7d,recordStats
     covid-today-stats-cache: maximumSize=10,expireAfterWrite=1d,recordStats
   cassandra:
-    keyspace-name: healthstats
-    contact-points: localhost
-    port: 9042
-    local-datacenter: dc1
+    schema-action: CREATE_IF_NOT_EXISTS
+    keyspace-name: ${CASSANDRA_KEYSPACE}
+    contact-points: ${CASSANDRA_CONTACT_POINTS}
+    port: ${CASSANDRA_PORT}
+    local-datacenter: ${CASSANDRA_LOCAL_DC}
     connection:
       connect-timeout: 60s
       init-query-timeout: 60s
@@ -43,12 +42,5 @@ feign:
     config:
       covid:
         api:
-          url: https://covid-193.p.rapidapi.com
+          url: ${COVID_CLIENT_URL}
           retry-max-attempts: 5
-
-logging:
-  level:
-    dev:
-      drewboiii:
-        healthstatsserviceapi:
-          client: DEBUG

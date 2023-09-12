@@ -23,18 +23,21 @@ class HealthStatsService(
 
         val todayStats = statsProvider.getTodayStats(country)
 
-        cassandraService.saveDayStats(providerName, todayStats) // TODO: aspect
+        //cassandraService.saveDayStats(providerName, todayStats) // TODO: aspect
+
+        //val dayStats = cassandraService.getDayStats(providerName, country)
 
         return todayStats
     }
 
     fun getAvailableCountries(providerName: String): Set<String> {
-        val statsProvider =
-            provider[providerName] ?: throw RuntimeException("Unknown provider") // TODO: Exception class
+        val statsProvider = provider[providerName] ?: throw RuntimeException("Unknown provider") // TODO: Exception class
 
         val countries = statsProvider.getAvailableCountries()
 
-        cassandraService.saveAvailableCountries(HealthStatsProviderType.valueOf(providerName), countries.toList())
+        //cassandraService.saveAvailableCountries(HealthStatsProviderType.valueOf(providerName), countries.toList())
+
+        //val countriesFromCassandra = cassandraService.getCountries(providerName)
 
         return countries
     }

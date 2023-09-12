@@ -7,6 +7,7 @@ import dev.drewboiii.healthstatsserviceapi.persistence.Countries
 import dev.drewboiii.healthstatsserviceapi.persistence.DayStatisticsCassandraRepository
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
 import org.springframework.stereotype.Service
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 class CassandraService(
@@ -19,5 +20,10 @@ class CassandraService(
 
     fun saveAvailableCountries(provider: HealthStatsProviderType, countries: List<String>) =
         countriesRepository.save(Countries(provider, countries))
+
+    fun getCountries(providerName: String) = countriesRepository.findByProvider(providerName)
+
+    fun getDayStats(providerName: String, countryName: String) =
+        dayStatsRepository.findDayStatsByProviderAndCountry(providerName, countryName)
 
 }

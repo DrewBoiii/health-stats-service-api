@@ -1,0 +1,46 @@
+spring:
+  main:
+    allow-circular-references: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql:health-stats-service-api
+    username: postgres
+    password: postgres
+  cassandra:
+    schema-action: CREATE_IF_NOT_EXISTS
+    keyspace-name: healthstats
+    contact-points: localhost
+    port: 9042
+    local-datacenter: dc1
+    connection:
+      connect-timeout: 60s
+      init-query-timeout: 60s
+    request:
+      timeout: 60s
+
+application:
+  cache:
+    enabled: true
+
+logging:
+  level:
+    dev:
+      drewboiii:
+        healthstatsserviceapi:
+          client:
+            Covid19Client: DEBUG
+    org:
+      springframework:
+        data:
+          cassandra:
+            core:
+              cql:
+                CqlTemplate: DEBUG
+
+feign:
+  client:
+    config:
+      covid:
+        api:
+          url: https://covid-193.p.rapidapi.com
+          retry-max-attempts: 5
