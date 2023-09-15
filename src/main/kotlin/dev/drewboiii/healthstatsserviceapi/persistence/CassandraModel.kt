@@ -10,7 +10,8 @@ import java.util.*
 
 @Table("day_stats")
 data class DayStatistics(
-    @PrimaryKeyColumn(name = "id", ordinal = 0, type = PrimaryKeyType.PARTITIONED) private val id: UUID,
+    @PrimaryKeyColumn(name = "id", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
+    private val id: UUID,
     @field:Column("req_date") private val reqDate: LocalDate,
     private val provider: HealthStatsProviderType,
     private val country: String,

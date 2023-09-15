@@ -1,6 +1,8 @@
 package dev.drewboiii.healthstatsserviceapi.aspect
 
+import dev.drewboiii.healthstatsserviceapi.dto.HealthServiceAvailableCountriesResponse
 import dev.drewboiii.healthstatsserviceapi.dto.HealthServiceTodayStatsResponse
+import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
 import dev.drewboiii.healthstatsserviceapi.service.CassandraService
 import mu.KotlinLogging
 import org.aspectj.lang.JoinPoint
@@ -13,7 +15,7 @@ private val logger = KotlinLogging.logger { }
 
 @Aspect
 @Component
-class CassandraSaverAspect(
+class CassandraSaveAspect(
     private val cassandraService: CassandraService
 ) {
 
@@ -29,6 +31,22 @@ class CassandraSaverAspect(
         val buildArgs = parameterNames.zip(args.map { it as String }).toMap()
 
         buildArgs["providerName"]?.let { cassandraService.saveDayStats(it, todayStats) }
+    }
+
+    @AfterReturning(
+        pointcut = "execution(* dev.drewboiii.healthstatsserviceapi.service.HealthStatsService.getAvailableCountries(String))",
+        returning = "countries"
+    )
+    fun saveAvailableCountries(joinPoint: JoinPoint, countries: Set<String>) {
+        val signature = joinPoint.signature as MethodSignature
+        val parameterNames = signature.parameterNames
+        val args = joinPoint.args
+
+        val buildArgs = parameterNames.zip(args.map { it as String }).toMap()
+
+        buildArgs["providerName"]?.let {
+            cassandraService.saveAvailableCountries(HealthStatsProviderType.valueOf(it), countries.toList())
+        }
     }
 
 }

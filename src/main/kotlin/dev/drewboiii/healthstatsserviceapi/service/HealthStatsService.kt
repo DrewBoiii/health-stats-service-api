@@ -1,45 +1,33 @@
 package dev.drewboiii.healthstatsserviceapi.service
 
 import dev.drewboiii.healthstatsserviceapi.dto.HealthServiceTodayStatsResponse
+import dev.drewboiii.healthstatsserviceapi.exception.UnknownProviderException
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProvider
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
 import org.springframework.stereotype.Service
 
 @Service
 class HealthStatsService(
-    private val provider: Map<String, HealthStatsProvider>,
-    private val cassandraService: CassandraService
+    private val provider: Map<String, HealthStatsProvider>
 ) {
 
     fun getTodayStats(country: String, providerName: String): HealthServiceTodayStatsResponse {
-        val statsProvider = provider[providerName] ?: throw RuntimeException("Unknown provider") // TODO: Exception class
+        val statsProvider = provider[providerName] ?: throw UnknownProviderException(providerName)
 
         val isCorrectCountry =
             statsProvider.getAvailableCountries().map(String::lowercase).contains(country.lowercase())
 
         if (!isCorrectCountry) {
-            throw RuntimeException("Incorrect country") // TODO: Exception class
+            throw RuntimeException("Incorrect country")
         }
 
-        val todayStats = statsProvider.getTodayStats(country)
-
-        //cassandraService.saveDayStats(providerName, todayStats) // TODO: aspect
-
-        //val dayStats = cassandraService.getDayStats(providerName, country)
-
-        return todayStats
+        return statsProvider.getTodayStats(country)
     }
 
     fun getAvailableCountries(providerName: String): Set<String> {
-        val statsProvider = provider[providerName] ?: throw RuntimeException("Unknown provider") // TODO: Exception class
+        val statsProvider = provider[providerName] ?: throw UnknownProviderException(providerName)
 
-        val countries = statsProvider.getAvailableCountries()
-
-        //cassandraService.saveAvailableCountries(HealthStatsProviderType.valueOf(providerName), countries.toList())
-
-        //val countriesFromCassandra = cassandraService.getCountries(providerName)
-
-        return countries
+        return statsProvider.getAvailableCountries()
     }
 
     fun getAvailableProviders() = HealthStatsProviderType.values().map { it.name }.toSet()
