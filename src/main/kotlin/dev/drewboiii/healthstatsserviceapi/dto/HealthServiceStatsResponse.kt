@@ -23,7 +23,7 @@ data class HealthServiceTodayStatsResponse(
 )
 
 data class HealthServiceAvailableCountriesResponse(
-    val countries: Set<String>
+    val countries: List<String>
 )
 
 data class HealthServiceAvailableProviders(

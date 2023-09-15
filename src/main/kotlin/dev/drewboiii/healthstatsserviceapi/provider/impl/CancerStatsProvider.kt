@@ -12,7 +12,7 @@ class CancerStatsProvider : HealthStatsProvider {
         throw NotImplementedException()
     }
 
-    override fun getAvailableCountries(): Set<String> {
+    override fun getAvailableCountries(): List<String> {
         throw NotImplementedException()
     }
 }

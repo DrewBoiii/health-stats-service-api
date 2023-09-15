@@ -24,7 +24,7 @@ class HealthStatsService(
         return statsProvider.getTodayStats(country)
     }
 
-    fun getAvailableCountries(providerName: String): Set<String> {
+    fun getAvailableCountries(providerName: String): List<String> {
         val statsProvider = provider[providerName] ?: throw UnknownProviderException(providerName)
 
         return statsProvider.getAvailableCountries()

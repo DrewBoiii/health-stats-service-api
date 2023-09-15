@@ -8,7 +8,7 @@ open class Covid19BaseResponse(
 )
 
 data class Covid19CountriesResponse(
-    val response: Set<String>,
+    val response: List<String>,
     val parameters: Any,
     override val get: String,
     override val results: Int,

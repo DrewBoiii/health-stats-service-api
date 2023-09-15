@@ -6,6 +6,6 @@ interface HealthStatsProvider {
 
     fun getTodayStats(country: String): HealthServiceTodayStatsResponse
 
-    fun getAvailableCountries(): Set<String>
+    fun getAvailableCountries(): List<String>
 
 }

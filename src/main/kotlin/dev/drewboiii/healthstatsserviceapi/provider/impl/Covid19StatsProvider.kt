@@ -21,13 +21,13 @@ class Covid19StatsProvider(val client: Covid19Client) : HealthStatsProvider {
         return stats?.toDto(country) ?: throw RuntimeException("No stats")
     }
 
-    override fun getAvailableCountries(): Set<String> {
+    override fun getAvailableCountries(): List<String> {
         val (response, parameters, get, results, errors) = client.getCountries()
 
         if (errors.isNotEmpty()) {
             throw RuntimeException("Unknown client error")
         }
 
-        return if (results > 0) response else emptySet()
+        return if (results > 0) response else emptyList()
     }
 }

@@ -37,7 +37,7 @@ class CassandraSaveAspect(
         pointcut = "execution(* dev.drewboiii.healthstatsserviceapi.service.HealthStatsService.getAvailableCountries(String))",
         returning = "countries"
     )
-    fun saveAvailableCountries(joinPoint: JoinPoint, countries: Set<String>) {
+    fun saveAvailableCountries(joinPoint: JoinPoint, countries: List<String>) {
         val signature = joinPoint.signature as MethodSignature
         val parameterNames = signature.parameterNames
         val args = joinPoint.args
@@ -45,7 +45,7 @@ class CassandraSaveAspect(
         val buildArgs = parameterNames.zip(args.map { it as String }).toMap()
 
         buildArgs["providerName"]?.let {
-            cassandraService.saveAvailableCountries(HealthStatsProviderType.valueOf(it), countries.toList())
+            cassandraService.saveAvailableCountries(HealthStatsProviderType.valueOf(it), countries)
         }
     }
 
