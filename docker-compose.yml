@@ -2,17 +2,16 @@ version: '3'
 
 services:
   cassandra:
-    image: cassandra:latest
+    image: bitnami/cassandra:latest
     ports:
-      - '7000:7000'
       - '9042:9042'
+    environment:
+      - CASSANDRA_DC=datacenter1
+      - CASSANDRA_USERNAME=cassandra
+      - CASSANDRA_PASSWORD=cassandra
     volumes:
-      - 'cassandra_data:/bitnami'
-    healthcheck:
-      test: [ "CMD", "/opt/bitnami/cassandra/bin/cqlsh", "-u cassandra", "-p cassandra" ,"-e \"describe keyspaces\"" ]
-      interval: 15s
-      timeout: 10s
-      retries: 10
+      - ./data/cassandra:/var/lib/cassandra
+
 volumes:
   cassandra_data:
     driver: local

@@ -1,6 +1,5 @@
 package dev.drewboiii.healthstatsserviceapi.aspect
 
-import dev.drewboiii.healthstatsserviceapi.dto.HealthServiceAvailableCountriesResponse
 import dev.drewboiii.healthstatsserviceapi.dto.HealthServiceTodayStatsResponse
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
 import dev.drewboiii.healthstatsserviceapi.service.CassandraService

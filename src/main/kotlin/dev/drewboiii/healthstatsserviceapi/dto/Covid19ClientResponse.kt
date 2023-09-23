@@ -38,20 +38,20 @@ data class Covid19StatisticsResponse(
             val critical: Long?,
             val recovered: Long,
             @field:JsonAlias("1M_pop")
-            val oneMillionPopulation: String,
+            val oneMillionPopulation: String?,
             val total: Long
         )
 
         data class Deaths(
             val new: String?,
             @field:JsonAlias("1M_pop")
-            val oneMillionPopulation: String,
+            val oneMillionPopulation: String?,
             val total: Long
         )
 
         data class Tests(
             @field:JsonAlias("1M_pop")
-            val oneMillionPopulation: String,
+            val oneMillionPopulation: String?,
             val total: Long
         )
     }

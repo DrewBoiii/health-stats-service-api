@@ -11,22 +11,22 @@ import java.util.*
 @Table("day_stats")
 data class DayStatistics(
     @PrimaryKeyColumn(name = "id", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
-    private val id: UUID,
-    @field:Column("req_date") private val reqDate: LocalDate,
-    private val provider: HealthStatsProviderType,
-    private val country: String,
-    private val continent: String?,
-    @field:Column("new_cases") private val newCases: String?,
-    @field:Column("critical_cases") private val criticalCases: Long?,
-    @field:Column("total_infected") private val totalInfected: Long?,
-    @field:Column("new_deaths") private val newDeaths: String?,
-    @field:Column("total_deaths") private val totalDeaths: Long?,
-    private val vaccinated: Long?
+    val id: UUID,
+    @field:Column("req_date") val reqDate: LocalDate,
+    val provider: HealthStatsProviderType,
+    val country: String,
+    val continent: String?,
+    @field:Column("new_cases") val newCases: String?,
+    @field:Column("critical_cases") val criticalCases: Long?,
+    @field:Column("total_infected") val totalInfected: Long?,
+    @field:Column("new_deaths") val newDeaths: String?,
+    @field:Column("total_deaths") val totalDeaths: Long?,
+    val vaccinated: Long?
 )
 
 @Table("countries")
 data class Countries(
     @PrimaryKeyColumn(name = "provider", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
-    private val provider: HealthStatsProviderType,
-    private val countries: List<String>
+    val provider: HealthStatsProviderType,
+    val countries: List<String>
 )

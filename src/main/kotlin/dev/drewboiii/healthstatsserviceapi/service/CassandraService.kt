@@ -4,10 +4,11 @@ import dev.drewboiii.healthstatsserviceapi.dto.HealthServiceTodayStatsResponse
 import dev.drewboiii.healthstatsserviceapi.dto.toCassandraModel
 import dev.drewboiii.healthstatsserviceapi.persistence.CountriesCassandraRepository
 import dev.drewboiii.healthstatsserviceapi.persistence.Countries
+import dev.drewboiii.healthstatsserviceapi.persistence.DayStatistics
 import dev.drewboiii.healthstatsserviceapi.persistence.DayStatisticsCassandraRepository
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
 import org.springframework.stereotype.Service
-import kotlin.jvm.optionals.getOrNull
+import java.time.LocalDate
 
 @Service
 class CassandraService(
@@ -23,7 +24,7 @@ class CassandraService(
 
     fun getCountries(providerName: String) = countriesRepository.findByProvider(providerName)
 
-    fun getDayStats(providerName: String, countryName: String) =
-        dayStatsRepository.findDayStatsByProviderAndCountry(providerName, countryName)
+    fun getStatsByDay(providerName: String, countryName: List<String>, reqDate: LocalDate) : List<DayStatistics> =
+        dayStatsRepository.findDayStatsByProviderAndCountryInAndReqDate(providerName, countryName, reqDate)
 
 }

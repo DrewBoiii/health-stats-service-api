@@ -9,9 +9,11 @@ spring:
   cassandra:
     schema-action: CREATE_IF_NOT_EXISTS
     keyspace-name: healthstats
+    username: cassandra
+    password: cassandra
     contact-points: localhost
     port: 9042
-    local-datacenter: dc1
+    local-datacenter: datacenter1
     connection:
       connect-timeout: 60s
       init-query-timeout: 60s

@@ -1,6 +1,7 @@
 package dev.drewboiii.healthstatsserviceapi.service
 
 import dev.drewboiii.healthstatsserviceapi.dto.HealthServiceTodayStatsResponse
+import dev.drewboiii.healthstatsserviceapi.exception.CountryNotSupportedException
 import dev.drewboiii.healthstatsserviceapi.exception.UnknownProviderException
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProvider
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
@@ -18,7 +19,7 @@ class HealthStatsService(
             statsProvider.getAvailableCountries().map(String::lowercase).contains(country.lowercase())
 
         if (!isCorrectCountry) {
-            throw RuntimeException("Incorrect country")
+            throw CountryNotSupportedException(providerName, country)
         }
 
         return statsProvider.getTodayStats(country)
