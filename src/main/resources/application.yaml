@@ -27,9 +27,15 @@ spring:
       init-query-timeout: 60s
     request:
       timeout: 60s
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.cassandra.CassandraDataAutoConfiguration,
+      - org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration
 
 application:
   cache:
+    enabled: true
+  cassandra:
     enabled: true
   client:
     interceptor:

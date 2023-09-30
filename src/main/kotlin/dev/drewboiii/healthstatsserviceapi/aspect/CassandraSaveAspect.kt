@@ -8,12 +8,14 @@ import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.AfterReturning
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.reflect.MethodSignature
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
 
 private val logger = KotlinLogging.logger { }
 
 @Aspect
 @Component
+@ConditionalOnProperty(name = ["application.cassandra.enabled"], havingValue = "true", matchIfMissing = true)
 class CassandraSaveAspect(
     private val cassandraService: CassandraService
 ) {
@@ -29,7 +31,10 @@ class CassandraSaveAspect(
 
         val buildArgs = parameterNames.zip(args.map { it as String }).toMap()
 
-        buildArgs["providerName"]?.let { cassandraService.saveDayStats(it, todayStats) }
+        buildArgs["providerName"]?.let {
+            cassandraService.saveDayStats(it, todayStats)
+            logger.info { "Day statistics for $it were saved." }
+        }
     }
 
     @AfterReturning(
@@ -45,6 +50,7 @@ class CassandraSaveAspect(
 
         buildArgs["providerName"]?.let {
             cassandraService.saveAvailableCountries(HealthStatsProviderType.valueOf(it), countries)
+            logger.info { "Available countries for $it were saved." }
         }
     }
 

@@ -3,6 +3,7 @@ package dev.drewboiii.healthstatsserviceapi.config
 import dev.drewboiii.healthstatsserviceapi.converter.HealthStatsProviderTypeToStringConverter
 import jakarta.annotation.PostConstruct
 import org.springframework.boot.autoconfigure.cassandra.CassandraProperties
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -16,6 +17,7 @@ import java.nio.charset.StandardCharsets
 
 @Configuration
 @EnableConfigurationProperties(CassandraProperties::class)
+@ConditionalOnProperty(name = ["application.cassandra.enabled"], havingValue = "true", matchIfMissing = true)
 class CassandraConfig(
     private val cassandraProperties: CassandraProperties
 ) : AbstractCassandraConfiguration() {

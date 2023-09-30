@@ -21,8 +21,8 @@ spring:
       timeout: 60s
 
 application:
-  cache:
-    enabled: true
+  cassandra:
+    enabled: false
 
 logging:
   level:
