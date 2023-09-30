@@ -46,3 +46,11 @@ feign:
         api:
           url: https://covid-193.p.rapidapi.com
           retry-max-attempts: 5
+
+springdoc:
+  packagesToScan:
+    - dev.drewboiii.healthstatsserviceapi
+  pathsToMatch:
+    - /**
+  swagger-ui:
+    enabled: true

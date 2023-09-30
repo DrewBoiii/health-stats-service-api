@@ -50,3 +50,7 @@ feign:
         api:
           url: ${COVID_CLIENT_URL}
           retry-max-attempts: 5
+
+springdoc:
+  swagger-ui:
+    enabled: false
