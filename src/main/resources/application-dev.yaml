@@ -52,5 +52,7 @@ springdoc:
     - dev.drewboiii.healthstatsserviceapi
   pathsToMatch:
     - /**
+  pathsToExclude:
+    - /test/warmup/stats
   swagger-ui:
     enabled: true

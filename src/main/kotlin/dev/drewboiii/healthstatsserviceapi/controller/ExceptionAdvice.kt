@@ -1,5 +1,6 @@
 package dev.drewboiii.healthstatsserviceapi.controller
 
+import dev.drewboiii.healthstatsserviceapi.exception.NotFoundException
 import dev.drewboiii.healthstatsserviceapi.exception.NotImplementedException
 import dev.drewboiii.healthstatsserviceapi.exception.UnknownProviderException
 import mu.KotlinLogging
@@ -35,6 +36,14 @@ class ExceptionAdvice {
     @ExceptionHandler(value = [UnknownProviderException::class])
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun unknownProviderExceptionHandler(ex: UnknownProviderException): String? {
+        val message = ex.message
+        logger.error { message }
+        return message
+    }
+
+    @ExceptionHandler(value = [NotFoundException::class])
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    fun notFoundExceptionHandler(ex: NotFoundException): String? {
         val message = ex.message
         logger.error { message }
         return message

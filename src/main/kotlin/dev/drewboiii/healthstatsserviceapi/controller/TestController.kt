@@ -1,7 +1,6 @@
 package dev.drewboiii.healthstatsserviceapi.controller
 
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
-import dev.drewboiii.healthstatsserviceapi.service.CassandraService
 import dev.drewboiii.healthstatsserviceapi.service.HealthStatsService
 import mu.KotlinLogging
 import org.springframework.transaction.annotation.Transactional
