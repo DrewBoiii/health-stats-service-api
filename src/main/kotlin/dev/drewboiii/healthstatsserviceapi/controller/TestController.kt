@@ -27,7 +27,7 @@ class TestController(
             for (country in countries) {
                 try {
                     healthStatsService.getTodayStats(country, providerName)
-                    Thread.sleep(3600)
+                    Thread.sleep(600)
                 } catch (ex: RuntimeException) {
                     logger.error(ex) { "Unknown error, country = $country" }
                     continue

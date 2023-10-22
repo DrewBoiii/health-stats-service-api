@@ -2,14 +2,14 @@ package dev.drewboiii.healthstatsserviceapi.config
 
 import dev.drewboiii.healthstatsserviceapi.client.FeignErrorDecoder
 import feign.codec.ErrorDecoder
-import feign.slf4j.Slf4jLogger
+import mu.KotlinLogging
 import org.springframework.context.annotation.Bean
 
 
 open class FeignConfig {
 
     @Bean
-    fun logger() = Slf4jLogger()
+    fun logger() = KotlinLogging.logger { }
 
     @Bean
     fun errorDecoder(): ErrorDecoder = FeignErrorDecoder()

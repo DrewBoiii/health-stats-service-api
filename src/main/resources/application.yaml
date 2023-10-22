@@ -33,6 +33,7 @@ spring:
       - org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration
 
 application:
+  name: health-stats-service-api
   cache:
     enabled: true
   cassandra:
@@ -42,6 +43,10 @@ application:
       covid19:
         api-key: ${HEALTH_STATS_SERVICE_APIKEY}
         api-host: ${HEALTH_STATS_SERVICE_APIHOST}
+  kafka:
+    server: localhost:29092
+    topic:
+      logs: service-logs-topic
 
 feign:
   client:
