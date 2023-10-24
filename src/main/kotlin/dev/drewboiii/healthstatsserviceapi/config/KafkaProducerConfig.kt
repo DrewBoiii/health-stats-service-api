@@ -20,14 +20,13 @@ class KafkaProducerConfig(
     fun kafkaJsonTemplate(): KafkaTemplate<String, Any> = KafkaTemplate(producerJsonFactory())
 
     @Bean
-    fun producerJsonFactory(): ProducerFactory<String, Any> {
-        val configs = mapOf(
-            ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to kafkaServer,
-            ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
-            ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to JsonSerializer::class.java
-        )
+    fun producerConfigs() = mapOf(
+        ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to kafkaServer,
+        ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
+        ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to JsonSerializer::class.java
+    )
 
-        return DefaultKafkaProducerFactory(configs)
-    }
+    @Bean
+    fun producerJsonFactory(): ProducerFactory<String, Any> = DefaultKafkaProducerFactory(producerConfigs())
 
 }

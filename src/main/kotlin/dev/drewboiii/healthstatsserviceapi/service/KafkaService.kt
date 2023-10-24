@@ -1,9 +1,8 @@
 package dev.drewboiii.healthstatsserviceapi.service
 
-import dev.drewboiii.healthstatsserviceapi.aspect.LoggingAspect
 import dev.drewboiii.healthstatsserviceapi.config.properties.AppKafkaPropertiesMap
 import dev.drewboiii.healthstatsserviceapi.dto.LogDto
-import dev.drewboiii.healthstatsserviceapi.exception.ApplicationException
+import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.kafka.support.KafkaHeaders
@@ -11,9 +10,11 @@ import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.LocalTime
 
+private val logger = KotlinLogging.logger { }
+
 @Service
 class KafkaService(
-    @Value("\${application.name:health-stats-service-api")
+    @Value("\${application.name:health-stats-service-api}")
     private val serverName: String,
     private val appKafkaPropertiesMap: AppKafkaPropertiesMap,
     private val kafkaProducerService: KafkaProducerService
@@ -21,7 +22,7 @@ class KafkaService(
 
     fun sendLogs(
         message: String,
-        logLevel: LoggingAspect.LogLevel,
+        logLevel: LoggingService.LogLevel,
         exception: Exception? = null,
         httpStatus: HttpStatus? = null
     ) {
@@ -35,11 +36,13 @@ class KafkaService(
             httpStatus = httpStatus
         )
 
-        val headers = mapOf(
-            KafkaHeaders.TOPIC to appKafkaPropertiesMap.topic.logs
-        )
+        val headers = mapOf(KafkaHeaders.TOPIC to appKafkaPropertiesMap.topic.logs)
 
         kafkaProducerService.sendMessage(payload, headers)
+            .whenComplete { result, ex ->
+                ex?.let { logger.error { it.message } }
+                result?.let { logger.info { "Message was successfully delivered to the topic - ${it.producerRecord.topic()}" } }
+            }
     }
 
 }

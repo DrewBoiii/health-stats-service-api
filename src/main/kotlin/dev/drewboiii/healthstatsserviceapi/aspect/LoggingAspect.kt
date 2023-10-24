@@ -1,6 +1,7 @@
 package dev.drewboiii.healthstatsserviceapi.aspect
 
 import dev.drewboiii.healthstatsserviceapi.service.KafkaService
+import dev.drewboiii.healthstatsserviceapi.service.LoggingService
 import mu.KotlinLogging
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.Aspect
@@ -20,10 +21,6 @@ class LoggingAspect(
     private val kafkaService: KafkaService
 ) {
 
-    enum class LogLevel {
-        INFO, WARN, ERROR, DEBUG
-    }
-
     @Before("@annotation(getMapping)")
     fun logInvocationApiGetMethods(joinPoint: JoinPoint, getMapping: GetMapping) {
         val signature = joinPoint.signature as MethodSignature
@@ -38,7 +35,7 @@ class LoggingAspect(
 
         logger.info { message }
 
-        kafkaService.sendLogs(message, LogLevel.INFO)
+        kafkaService.sendLogs(message, LoggingService.LogLevel.INFO)
     }
 
     private fun convertToString(argValue: Any) = when (argValue) {
