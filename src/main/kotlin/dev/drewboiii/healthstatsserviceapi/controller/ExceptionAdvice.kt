@@ -7,6 +7,7 @@ import dev.drewboiii.healthstatsserviceapi.service.KafkaService
 import dev.drewboiii.healthstatsserviceapi.service.LoggingService
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
+import org.springframework.web.HttpRequestMethodNotSupportedException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -54,6 +55,15 @@ class ExceptionAdvice(
         val message = ex.message ?: "Not Found"
         logger.error { message }
         kafkaService.sendLogs(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.NOT_FOUND)
+        return message
+    }
+
+    @ExceptionHandler(value = [HttpRequestMethodNotSupportedException::class])
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    fun methodNotAllowedExceptionHandler(ex: HttpRequestMethodNotSupportedException): String? {
+        val message = ex.message ?: "Method Not Allowed"
+        logger.error { message }
+        kafkaService.sendLogs(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.METHOD_NOT_ALLOWED)
         return message
     }
 

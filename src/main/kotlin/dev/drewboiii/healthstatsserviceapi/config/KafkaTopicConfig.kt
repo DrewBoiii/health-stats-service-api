@@ -24,6 +24,8 @@ class KafkaTopicConfig(
     fun serviceLogsTopic(): NewTopic = TopicBuilder
         .name(appKafkaPropertiesMap.topic.logs)
         .config(TopicConfig.COMPRESSION_TYPE_CONFIG, "zstd")
+        .partitions(5)
+        .replicas(1)
         .build()
 
 }

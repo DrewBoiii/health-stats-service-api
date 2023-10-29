@@ -44,9 +44,9 @@ application:
         api-key: ${HEALTH_STATS_SERVICE_APIKEY}
         api-host: ${HEALTH_STATS_SERVICE_APIHOST}
   kafka:
-    server: localhost:29092
+    server: ${KAFKA_SERVER}
     topic:
-      logs: service-logs-topic
+      logs: ${SERVER_LOG_TOPIC}
 
 feign:
   client:
