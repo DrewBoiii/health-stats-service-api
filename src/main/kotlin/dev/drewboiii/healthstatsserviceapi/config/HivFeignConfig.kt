@@ -12,9 +12,9 @@ class HivFeignConfig(
 ): FeignConfig() {
 
     @Bean
-    fun feignLoggerLevel(): Logger.Level = Logger.Level.BASIC
+    fun feignLoggerLevel(): Logger.Level = Logger.Level.FULL
 
     @Bean
-    fun retryer(): Retryer = Retryer.Default(100L, TimeUnit.SECONDS.toMillis(1L), retryMaxAttempts)
+    fun retryer(): Retryer = Retryer.Default(100L, TimeUnit.SECONDS.toMillis(10L), retryMaxAttempts)
 
 }

@@ -54,7 +54,7 @@ feign:
           retry-max-attempts: 5
       hiv:
         api:
-          url: localhost:8180
+          url: localhost:8180/statistics
           retry-max-attempts: 5
 
 springdoc:

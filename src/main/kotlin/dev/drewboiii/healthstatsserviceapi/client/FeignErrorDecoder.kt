@@ -12,7 +12,7 @@ class FeignErrorDecoder: ErrorDecoder {
         when(response.status()) {
             400 -> throw RuntimeException("Bad Request")
             404 -> throw RuntimeException("Not Found")
-            else -> throw RuntimeException("method - $methodKey, status - ${response.status()}, reason - ${response.reason()}")
+            else -> throw RuntimeException("Client responded with error, Method - $methodKey, status - ${response.status()}, reason - ${response.reason()}")
         }
 
 }

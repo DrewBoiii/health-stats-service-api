@@ -2,8 +2,8 @@ package dev.drewboiii.healthstatsserviceapi.provider.impl
 
 import dev.drewboiii.healthstatsserviceapi.client.HivClient
 import dev.drewboiii.healthstatsserviceapi.dto.HealthServiceTodayStatsResponse
+import dev.drewboiii.healthstatsserviceapi.dto.HivStatisticsTodayResponse
 import dev.drewboiii.healthstatsserviceapi.dto.toHealthServiceTodayStatsResponse
-import dev.drewboiii.healthstatsserviceapi.exception.NotImplementedException
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProvider
 import org.springframework.stereotype.Component
 
@@ -25,5 +25,7 @@ class HIVStatsProvider(
 
         return if (quantity > 0) countries.toList() else emptyList()
     }
+
+    fun hivFallback(throwable: Throwable) = HivStatisticsTodayResponse(statistics = emptyList())
 
 }

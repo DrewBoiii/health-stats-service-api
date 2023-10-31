@@ -5,6 +5,8 @@ import dev.drewboiii.healthstatsserviceapi.exception.NotImplementedException
 import dev.drewboiii.healthstatsserviceapi.exception.UnknownProviderException
 import dev.drewboiii.healthstatsserviceapi.service.KafkaService
 import dev.drewboiii.healthstatsserviceapi.service.LoggingService
+import feign.RetryableException
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.web.HttpRequestMethodNotSupportedException
@@ -21,13 +23,24 @@ class ExceptionAdvice(
 ) {
 
     @ExceptionHandler(Exception::class)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     fun commonExceptionHandler(ex: Exception, request: ServletWebRequest?): String? {
         val url = request?.request?.requestURL
         val parameterNames = request?.parameterMap?.keys
         val errorMessage = "Unknown error occurred \nRequest URL: $url \nParameter names: $parameterNames"
         logger.error(errorMessage, ex)
         kafkaService.sendLogs(errorMessage, LoggingService.LogLevel.ERROR, ex, HttpStatus.INTERNAL_SERVER_ERROR)
+        return ex.message
+    }
+
+    @ExceptionHandler(*[CallNotPermittedException::class, RetryableException::class])
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    fun serviceNotAvailableExceptionHandler(ex: RuntimeException, request: ServletWebRequest?): String? {
+        val url = request?.request?.requestURL
+        val parameterNames = request?.parameterMap?.keys
+        val errorMessage = "Service is unavailable, provider is not connected \nRequest URL: $url \nParameter names: $parameterNames"
+        logger.error(errorMessage, ex)
+        kafkaService.sendLogs(errorMessage, LoggingService.LogLevel.ERROR, ex, HttpStatus.SERVICE_UNAVAILABLE)
         return ex.message
     }
 

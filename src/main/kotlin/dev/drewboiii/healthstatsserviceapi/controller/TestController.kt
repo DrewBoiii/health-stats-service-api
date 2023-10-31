@@ -1,7 +1,9 @@
 package dev.drewboiii.healthstatsserviceapi.controller
 
+import dev.drewboiii.healthstatsserviceapi.exception.NotImplementedException
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
 import dev.drewboiii.healthstatsserviceapi.service.HealthStatsService
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException
 import mu.KotlinLogging
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.GetMapping
@@ -23,15 +25,20 @@ class TestController(
         var providerName: String
         for (providerType in HealthStatsProviderType.values()) {
             providerName = providerType.name
-            countries = healthStatsService.getAvailableCountries(providerName)
-            for (country in countries) {
-                try {
-                    healthStatsService.getTodayStats(country, providerName)
-                    Thread.sleep(600)
-                } catch (ex: RuntimeException) {
-                    logger.error(ex) { "Unknown error, country = $country" }
-                    continue
+            try {
+                countries = healthStatsService.getAvailableCountries(providerName)
+                for (country in countries) {
+                    try {
+                        healthStatsService.getTodayStats(country, providerName)
+                        Thread.sleep(600)
+                    } catch (ex: RuntimeException) {
+                        logger.error(ex) { "Unknown error, country = $country" }
+                        continue
+                    }
                 }
+            } catch (ignore: NotImplementedException) {
+            } catch (ex: CallNotPermittedException) {
+                logger.error { ex.message }
             }
         }
         return "Success"
