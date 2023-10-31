@@ -16,6 +16,8 @@ spring:
     today-stats-cache: maximumSize=10,expireAfterWrite=1d,recordStats
     covid-countries-cache: maximumSize=10,expireAfterWrite=7d,recordStats
     covid-today-stats-cache: maximumSize=10,expireAfterWrite=1d,recordStats
+    hiv-countries-cache: maximumSize=10,expireAfterWrite=7d,recordStats
+    hiv-today-stats-cache: maximumSize=10,expireAfterWrite=1d,recordStats
   cassandra:
     schema-action: CREATE_IF_NOT_EXISTS
     keyspace-name: ${CASSANDRA_KEYSPACE}
@@ -54,6 +56,10 @@ feign:
       covid:
         api:
           url: ${COVID_CLIENT_URL}
+          retry-max-attempts: 5
+      hiv:
+        api:
+          url: ${HIV_CLIENT_URL}
           retry-max-attempts: 5
 
 springdoc:

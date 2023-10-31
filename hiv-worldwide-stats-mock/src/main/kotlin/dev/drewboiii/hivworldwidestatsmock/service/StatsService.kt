@@ -5,6 +5,7 @@ import dev.drewboiii.hivworldwidestatsmock.dto.Statistics
 import dev.drewboiii.hivworldwidestatsmock.dto.StatsResponse
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
+import java.util.concurrent.TimeUnit
 import kotlin.math.abs
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
@@ -21,6 +22,9 @@ class StatsService {
         )
 
     private fun buildStatsResponse(countryName: String): StatsResponse {
+        // imitate latency
+        TimeUnit.SECONDS.sleep(2)
+
         if (!countries.map { it.lowercase() }.contains(countryName.lowercase())) {
             return StatsResponse(statistics = emptyList())
         }
@@ -41,7 +45,8 @@ class StatsService {
                         recovered = abs(Random(Long.MAX_VALUE).nextLong(100_000_000))
                     ),
                     dead = Statistics.Cases.DeadCases(
-                        lethal = abs(Random(Long.MAX_VALUE).nextLong(100_000))
+                        lethal = abs(Random(Long.MAX_VALUE).nextLong(100_000)),
+                        total = abs(Random(Long.MAX_VALUE).nextLong(1_000_000))
                     ),
                     cured = Statistics.Cases.CuredCases(
                         totalRecovered = abs(Random(Long.MAX_VALUE).nextLong(100_000_000))

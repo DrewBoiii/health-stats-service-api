@@ -52,6 +52,10 @@ feign:
         api:
           url: https://covid-193.p.rapidapi.com
           retry-max-attempts: 5
+      hiv:
+        api:
+          url: localhost:8180
+          retry-max-attempts: 5
 
 springdoc:
   packagesToScan:

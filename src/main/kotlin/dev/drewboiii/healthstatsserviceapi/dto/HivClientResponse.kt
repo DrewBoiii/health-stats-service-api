@@ -1,8 +1,8 @@
-package dev.drewboiii.hivworldwidestatsmock.dto
+package dev.drewboiii.healthstatsserviceapi.dto
 
 import java.time.LocalDateTime
 
-data class StatsResponse(
+data class HivStatisticsTodayResponse(
     val statistics: List<Statistics>
 )
 data class Statistics(
@@ -39,7 +39,19 @@ data class Statistics(
     }
 }
 
-data class CountriesResponse(
+data class HivCountriesResponse(
     val countries: Set<String>,
     val quantity: Int
+)
+
+fun Statistics.toHealthServiceTodayStatsResponse() = HealthServiceTodayStatsResponse(
+    country = this.country.name,
+    continent = this.country.continent,
+    newCases = this.cases.new.discovered?.toString(),
+    criticalCases = this.cases.new.lethal,
+    totalInfected = this.cases.new.active,
+    newDeaths = this.cases.dead.lethal?.toString(),
+    totalDeaths = this.cases.dead.total,
+    vaccinated = this.cases.cured.totalRecovered,
+    day = this.date.toLocalDate()
 )
