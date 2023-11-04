@@ -4,6 +4,7 @@ import dev.drewboiii.healthstatsserviceapi.config.HivFeignConfig
 import dev.drewboiii.healthstatsserviceapi.dto.HivCountriesResponse
 import dev.drewboiii.healthstatsserviceapi.dto.HivStatisticsTodayResponse
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping
@@ -14,11 +15,13 @@ interface HivClient {
 
     @GetMapping("/countries")
     @CircuitBreaker(name = "hiv")
+    @RateLimiter(name = "hiv")
     @Cacheable(cacheNames = ["hiv-countries-cache"], cacheManager = "MainCacheManager")
     fun getCountries(@RequestParam apiKey: String): HivCountriesResponse
 
     @GetMapping("/today")
     @CircuitBreaker(name = "hiv")
+    @RateLimiter(name = "hiv")
     @Cacheable(cacheNames = ["hiv-today-stats-cache"], cacheManager = "MainCacheManager", key = "{#country}")
     fun getTodayStatistics(@RequestParam apiKey: String, @RequestParam country: String): HivStatisticsTodayResponse
 

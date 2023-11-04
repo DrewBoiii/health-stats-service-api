@@ -13,7 +13,6 @@ spring:
     cache-names: CacheableApplicationRepository
     caffeine:
       spec: maximumSize=10,expireAfterWrite=10m,recordStats
-    today-stats-cache: maximumSize=10,expireAfterWrite=1d,recordStats
     covid-countries-cache: maximumSize=10,expireAfterWrite=7d,recordStats
     covid-today-stats-cache: maximumSize=10,expireAfterWrite=1d,recordStats
     hiv-countries-cache: maximumSize=10,expireAfterWrite=7d,recordStats
@@ -70,22 +69,41 @@ management:
     - '*'
   endpoint.health.show-details: always
   health.circuitbreakers.enabled: true
+  health.ratelimiters.enabled: true
 
-resilience4j.circuitbreaker:
-  configs:
-    default:
-      slidingWindowType: COUNT_BASED
-      minimumNumberOfCalls: 10
-      permittedNumberOfCallsInHalfOpenState: 10
-      failureRateThreshold: 10
-      slowCallRateThreshold: 20
-      slowCallDurationThreshold: 100ms
-      registerHealthIndicator: true
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 10
+        failureRateThreshold: 10
+        slowCallRateThreshold: 20
+        slowCallDurationThreshold: 100ms
+        registerHealthIndicator: true
+      instances:
+        hiv:
+          baseConfig: default
+        covid:
+          baseConfig: default
+  ratelimiter:
     instances:
-      hiv:
-        baseConfig: default
+      default:
+        limitForPeriod: 10
+        limitRefreshPeriod: 1s
+        timeoutDuration: 1s
+        registerHealthIndicator: true
       covid:
-        baseConfig: default
+        limitForPeriod: 60
+        limitRefreshPeriod: 1m
+        timeoutDuration: 2s
+        registerHealthIndicator: true
+      hiv:
+        limitForPeriod: 5
+        limitRefreshPeriod: 1s
+        timeoutDuration: 2s
+        registerHealthIndicator: true
 
 springdoc:
   swagger-ui:

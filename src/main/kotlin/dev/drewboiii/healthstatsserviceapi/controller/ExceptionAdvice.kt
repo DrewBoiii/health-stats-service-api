@@ -1,8 +1,6 @@
 package dev.drewboiii.healthstatsserviceapi.controller
 
-import dev.drewboiii.healthstatsserviceapi.exception.NotFoundException
-import dev.drewboiii.healthstatsserviceapi.exception.NotImplementedException
-import dev.drewboiii.healthstatsserviceapi.exception.UnknownProviderException
+import dev.drewboiii.healthstatsserviceapi.exception.*
 import dev.drewboiii.healthstatsserviceapi.service.KafkaService
 import dev.drewboiii.healthstatsserviceapi.service.LoggingService
 import feign.RetryableException
@@ -33,9 +31,9 @@ class ExceptionAdvice(
         return errorMessage
     }
 
-    @ExceptionHandler(*[CallNotPermittedException::class, RetryableException::class])
+    @ExceptionHandler(*[CallNotPermittedException::class, RetryableException::class, ApplicationException::class])
     @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
-    fun serviceNotAvailableExceptionHandler(ex: RuntimeException, request: ServletWebRequest?): String? {
+    fun serviceNotAvailableExceptionHandler(ex: ApplicationException, request: ServletWebRequest?): String? {
         val url = request?.request?.requestURL
         val parameterNames = request?.parameterMap?.keys
         val errorMessage = "Service is unavailable, provider is not connected \nRequest URL: $url \nParameter names: $parameterNames"
@@ -77,6 +75,15 @@ class ExceptionAdvice(
         val message = ex.message ?: "Method Not Allowed"
         logger.error { message }
         kafkaService?.sendLogs(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.METHOD_NOT_ALLOWED)
+        return message
+    }
+
+    @ExceptionHandler(value = [TooManyRequestsException::class])
+    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
+    fun tooManyRequestsExceptionHandler(ex: TooManyRequestsException): String? {
+        val message = ex.message ?: "Too Many Requests"
+        logger.error { message }
+        kafkaService?.sendLogs(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.TOO_MANY_REQUESTS)
         return message
     }
 

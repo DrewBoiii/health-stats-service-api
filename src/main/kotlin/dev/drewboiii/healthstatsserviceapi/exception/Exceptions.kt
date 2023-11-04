@@ -9,3 +9,5 @@ class CountryNotSupportedException(providerName: String, country: String) :
     ApplicationException("Country $country is not supported in provider $providerName")
 
 class NotFoundException(message: String) : ApplicationException(message)
+
+class TooManyRequestsException(message: String = "Too many requests") : ApplicationException(message)
