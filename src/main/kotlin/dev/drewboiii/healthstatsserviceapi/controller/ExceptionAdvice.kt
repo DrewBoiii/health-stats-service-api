@@ -19,7 +19,7 @@ private val logger = KotlinLogging.logger {}
 
 @RestControllerAdvice
 class ExceptionAdvice(
-    private val kafkaService: KafkaService
+    private val kafkaService: KafkaService?
 ) {
 
     @ExceptionHandler(Exception::class)
@@ -29,8 +29,8 @@ class ExceptionAdvice(
         val parameterNames = request?.parameterMap?.keys
         val errorMessage = "Unknown error occurred \nRequest URL: $url \nParameter names: $parameterNames"
         logger.error(errorMessage, ex)
-        kafkaService.sendLogs(errorMessage, LoggingService.LogLevel.ERROR, ex, HttpStatus.INTERNAL_SERVER_ERROR)
-        return ex.message
+        kafkaService?.sendLogs(errorMessage, LoggingService.LogLevel.ERROR, ex, HttpStatus.INTERNAL_SERVER_ERROR)
+        return errorMessage
     }
 
     @ExceptionHandler(*[CallNotPermittedException::class, RetryableException::class])
@@ -40,8 +40,8 @@ class ExceptionAdvice(
         val parameterNames = request?.parameterMap?.keys
         val errorMessage = "Service is unavailable, provider is not connected \nRequest URL: $url \nParameter names: $parameterNames"
         logger.error(errorMessage, ex)
-        kafkaService.sendLogs(errorMessage, LoggingService.LogLevel.ERROR, ex, HttpStatus.SERVICE_UNAVAILABLE)
-        return ex.message
+        kafkaService?.sendLogs(errorMessage, LoggingService.LogLevel.ERROR, ex, HttpStatus.SERVICE_UNAVAILABLE)
+        return errorMessage
     }
 
     @ExceptionHandler(NotImplementedException::class)
@@ -49,7 +49,7 @@ class ExceptionAdvice(
     fun notImplementedExceptionHandler(ex: NotImplementedException): String? {
         val message = ex.message ?: "Not Implemented"
         logger.error { message }
-        kafkaService.sendLogs(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.NOT_IMPLEMENTED)
+        kafkaService?.sendLogs(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.NOT_IMPLEMENTED)
         return message
     }
 
@@ -58,7 +58,7 @@ class ExceptionAdvice(
     fun unknownProviderExceptionHandler(ex: UnknownProviderException): String? {
         val message = ex.message ?: "Bad Request"
         logger.error { message }
-        kafkaService.sendLogs(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.BAD_REQUEST)
+        kafkaService?.sendLogs(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.BAD_REQUEST)
         return message
     }
 
@@ -67,7 +67,7 @@ class ExceptionAdvice(
     fun notFoundExceptionHandler(ex: NotFoundException): String? {
         val message = ex.message ?: "Not Found"
         logger.error { message }
-        kafkaService.sendLogs(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.NOT_FOUND)
+        kafkaService?.sendLogs(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.NOT_FOUND)
         return message
     }
 
@@ -76,7 +76,7 @@ class ExceptionAdvice(
     fun methodNotAllowedExceptionHandler(ex: HttpRequestMethodNotSupportedException): String? {
         val message = ex.message ?: "Method Not Allowed"
         logger.error { message }
-        kafkaService.sendLogs(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.METHOD_NOT_ALLOWED)
+        kafkaService?.sendLogs(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.METHOD_NOT_ALLOWED)
         return message
     }
 

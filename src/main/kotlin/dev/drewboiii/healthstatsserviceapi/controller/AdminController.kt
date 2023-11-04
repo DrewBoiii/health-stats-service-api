@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/admin")
 class AdminController(
-    private val cacheService: CacheService
+    private val cacheService: CacheService?
 ) {
 
     @PostMapping("/caches/invalidate")
-    fun invalidateCashes() = cacheService.evictAllCaches()
+    fun invalidateCashes() = cacheService?.evictAllCaches()
 
 }

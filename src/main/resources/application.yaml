@@ -31,8 +31,10 @@ spring:
       timeout: 60s
   autoconfigure:
     exclude:
-      - org.springframework.boot.autoconfigure.data.cassandra.CassandraDataAutoConfiguration,
+      - org.springframework.boot.autoconfigure.data.cassandra.CassandraDataAutoConfiguration
       - org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration
+      - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.metrics.KafkaMetricsAutoConfiguration
 
 application:
   name: health-stats-service-api
@@ -46,6 +48,7 @@ application:
         api-key: ${HEALTH_STATS_SERVICE_APIKEY}
         api-host: ${HEALTH_STATS_SERVICE_APIHOST}
   kafka:
+    enabled: true
     server: ${KAFKA_SERVER}
     topic:
       logs: ${SERVER_LOG_TOPIC}

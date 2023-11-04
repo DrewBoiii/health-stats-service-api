@@ -18,7 +18,7 @@ private val logger = KotlinLogging.logger { }
 @Aspect
 @Component
 class LoggingAspect(
-    private val kafkaService: KafkaService
+    private val kafkaService: KafkaService?
 ) {
 
     @Before("@annotation(getMapping)")
@@ -35,7 +35,7 @@ class LoggingAspect(
 
         logger.info { message }
 
-        kafkaService.sendLogs(message, LoggingService.LogLevel.INFO)
+        kafkaService?.sendLogs(message, LoggingService.LogLevel.INFO)
     }
 
     private fun convertToString(argValue: Any) = when (argValue) {

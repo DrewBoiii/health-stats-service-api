@@ -22,10 +22,11 @@ spring:
 
 application:
   cassandra:
-    enabled: true
+    enabled: false
   cache:
-    enabled: true
+    enabled: false
   kafka:
+    enabled: false
     server: localhost:29092
     topic:
       logs: service-logs-topic
