@@ -62,7 +62,7 @@ feign:
 #  swagger-ui:
 #    enabled: true
 #    url: /open-api.yml
-
+springdoc:
   packagesToScan:
     - dev.drewboiii.healthstatsserviceapi
   pathsToMatch:
