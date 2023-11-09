@@ -3,6 +3,7 @@ package dev.drewboiii.healthstatsserviceapi.aspect
 import dev.drewboiii.healthstatsserviceapi.service.KafkaService
 import dev.drewboiii.healthstatsserviceapi.service.LoggingService
 import mu.KotlinLogging
+import org.apache.catalina.connector.RequestFacade
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
@@ -38,10 +39,11 @@ class LoggingAspect(
         kafkaService?.sendLogs(message, LoggingService.LogLevel.INFO)
     }
 
-    private fun convertToString(argValue: Any) = when (argValue) {
+    private fun convertToString(argValue: Any): String = when (argValue) {
         is LocalDate -> argValue.toString()
         is LocalTime -> argValue.toString()
         is LocalDateTime -> argValue.toString()
+        is RequestFacade -> argValue.toString()
         else -> argValue as String
     }
 

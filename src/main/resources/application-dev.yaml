@@ -58,7 +58,11 @@ feign:
           url: localhost:8180/statistics
           retry-max-attempts: 5
 
-springdoc:
+#springdoc:
+#  swagger-ui:
+#    enabled: true
+#    url: /open-api.yml
+
   packagesToScan:
     - dev.drewboiii.healthstatsserviceapi
   pathsToMatch:

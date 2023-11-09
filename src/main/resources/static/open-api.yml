@@ -1,0 +1,402 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  "/admin/caches/invalidate":
+    post:
+      tags:
+        - admin-controller
+      operationId: invalidateCashes
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/Unit"
+        '400':
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                type: string
+        '404':
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                type: string
+        '405':
+          description: Method Not Allowed
+          content:
+            "*/*":
+              schema:
+                type: string
+        '429':
+          description: Too Many Requests
+          content:
+            "*/*":
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            "*/*":
+              schema:
+                type: string
+        '503':
+          description: Service Unavailable
+          content:
+            "*/*":
+              schema:
+                type: string
+  "/stats/today":
+    get:
+      tags:
+        - health-stats-controller
+      operationId: getTodayStats
+      parameters:
+        - name: country
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: provider
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/HealthServiceTodayStatsResponse"
+        '400':
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                type: string
+        '404':
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                type: string
+        '405':
+          description: Method Not Allowed
+          content:
+            "*/*":
+              schema:
+                type: string
+        '429':
+          description: Too Many Requests
+          content:
+            "*/*":
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            "*/*":
+              schema:
+                type: string
+        '503':
+          description: Service Unavailable
+          content:
+            "*/*":
+              schema:
+                type: string
+  "/stats/providers":
+    get:
+      tags:
+        - health-stats-controller
+      operationId: getAvailableProviders
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/HealthServiceAvailableProviders"
+        '400':
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                type: string
+        '404':
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                type: string
+        '405':
+          description: Method Not Allowed
+          content:
+            "*/*":
+              schema:
+                type: string
+        '429':
+          description: Too Many Requests
+          content:
+            "*/*":
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            "*/*":
+              schema:
+                type: string
+        '503':
+          description: Service Unavailable
+          content:
+            "*/*":
+              schema:
+                type: string
+  "/stats/history":
+    get:
+      tags:
+        - health-stats-history-controller
+      operationId: getStatsByDay
+      parameters:
+        - name: country
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: provider
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: day
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/HistoryStatisticsByDay"
+        '400':
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                type: string
+        '404':
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                type: string
+        '405':
+          description: Method Not Allowed
+          content:
+            "*/*":
+              schema:
+                type: string
+        '429':
+          description: Too Many Requests
+          content:
+            "*/*":
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            "*/*":
+              schema:
+                type: string
+        '503':
+          description: Service Unavailable
+          content:
+            "*/*":
+              schema:
+                type: string
+  "/stats/countries":
+    get:
+      tags:
+        - health-stats-controller
+      operationId: getAvailableCountries
+      parameters:
+        - name: provider
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/HealthServiceAvailableCountriesResponse"
+        '400':
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                type: string
+        '404':
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                type: string
+        '405':
+          description: Method Not Allowed
+          content:
+            "*/*":
+              schema:
+                type: string
+        '429':
+          description: Too Many Requests
+          content:
+            "*/*":
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                type: string
+        '501':
+          description: Not Implemented
+          content:
+            "*/*":
+              schema:
+                type: string
+        '503':
+          description: Service Unavailable
+          content:
+            "*/*":
+              schema:
+                type: string
+components:
+  schemas:
+    Unit:
+      type: object
+    HealthServiceTodayStatsResponse:
+      required:
+        - country
+        - day
+      type: object
+      properties:
+        country:
+          type: string
+        continent:
+          type: string
+        newCases:
+          type: string
+        criticalCases:
+          type: integer
+          format: int64
+        totalInfected:
+          type: integer
+          format: int64
+        newDeaths:
+          type: string
+        totalDeaths:
+          type: integer
+          format: int64
+        vaccinated:
+          type: integer
+          format: int64
+        day:
+          type: string
+          format: date
+    HealthServiceAvailableProviders:
+      required:
+        - providers
+      type: object
+      properties:
+        providers:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+    HistoryStatisticsByDay:
+      required:
+        - country
+        - provider
+      type: object
+      properties:
+        reqDate:
+          type: string
+          format: date
+          writeOnly: true
+        provider:
+          type: string
+          enum:
+            - COVID19
+            - HIV
+            - CANCER
+        country:
+          type: string
+        continent:
+          type: string
+        newCases:
+          type: string
+        criticalCases:
+          type: integer
+          format: int64
+        totalInfected:
+          type: integer
+          format: int64
+        newDeaths:
+          type: string
+        totalDeaths:
+          type: integer
+          format: int64
+        vaccinated:
+          type: integer
+          format: int64
+    HealthServiceAvailableCountriesResponse:
+      required:
+        - countries
+      type: object
+      properties:
+        countries:
+          type: array
+          items:
+            type: string
