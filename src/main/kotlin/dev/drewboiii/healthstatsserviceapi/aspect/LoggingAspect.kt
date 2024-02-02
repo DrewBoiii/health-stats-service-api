@@ -28,7 +28,7 @@ class LoggingAspect(
         val parameterNames = signature.parameterNames
         val args = joinPoint.args
 
-        val buildArgs = parameterNames.zip(args.map { convertToString(it) }).toMap()
+        val buildArgs = parameterNames.zip(args.map { it }).toMap()
 
         val path = getMapping.value.takeIf { it.isNotEmpty() }?.iterator()?.next()
 
@@ -37,14 +37,6 @@ class LoggingAspect(
         logger.info { message }
 
         kafkaService?.sendLogs(message, LoggingService.LogLevel.INFO)
-    }
-
-    private fun convertToString(argValue: Any): String = when (argValue) {
-        is LocalDate -> argValue.toString()
-        is LocalTime -> argValue.toString()
-        is LocalDateTime -> argValue.toString()
-        is RequestFacade -> argValue.toString()
-        else -> argValue as String
     }
 
 }

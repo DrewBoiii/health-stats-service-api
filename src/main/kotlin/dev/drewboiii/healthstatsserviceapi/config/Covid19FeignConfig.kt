@@ -17,7 +17,7 @@ class Covid19FeignConfig(
     fun requestInterceptor(): RequestInterceptor = Covid19ClientHeaderRequestInterceptor()
 
     @Bean
-    fun feignLoggerLevel(): Logger.Level = Logger.Level.HEADERS
+    fun feignLoggerLevel(): Logger.Level = Logger.Level.FULL
 
     @Bean
     fun retryer(): Retryer = Retryer.Default(100L, TimeUnit.SECONDS.toMillis(3L), retryMaxAttempts)

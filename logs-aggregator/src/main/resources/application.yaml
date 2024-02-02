@@ -1,0 +1,14 @@
+server:
+  port: 8280
+
+kafka-config:
+  bootstrap-servers: localhost:29092
+  consumers:
+    service-logs-topic:
+      enabled: true
+      topic: service-logs-topic
+      group-id: health-stats.logs.1
+      auto-offset-reset: earliest
+      auto-commit: true
+      isolation-level: READ_COMMITTED
+

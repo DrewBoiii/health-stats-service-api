@@ -33,7 +33,7 @@ class ExceptionAdvice(
 
     @ExceptionHandler(*[CallNotPermittedException::class, RetryableException::class, ApplicationException::class])
     @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
-    fun serviceNotAvailableExceptionHandler(ex: ApplicationException, request: ServletWebRequest?): String? {
+    fun serviceNotAvailableExceptionHandler(ex: RuntimeException, request: ServletWebRequest?): String? {
         val url = request?.request?.requestURL
         val parameterNames = request?.parameterMap?.keys
         val errorMessage = "Service is unavailable, provider is not connected \nRequest URL: $url \nParameter names: $parameterNames"
