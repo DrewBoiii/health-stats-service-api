@@ -25,14 +25,23 @@ class KafkaConsumerConfig {
 
     @Bean
     @ConditionalOnProperty(
-        value = ["kafka-config.consumers.service-logs-topic.enabled"],
+        value = ["kafka-config.consumers.service-logs-consumer.enabled"],
         havingValue = "true",
         matchIfMissing = true
     )
     fun serviceLogsKafkaListenerContainerFactory(): KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, LogDto>> =
-        jsonKafkaListener(kafkaConfigProperties(), "service-logs-topic", LogDto::class.java)
+        concurrentKafkaListenerContainerFactory(kafkaConfigProperties(), "service-logs-consumer", LogDto::class.java)
 
-    private fun <T> jsonKafkaListener(
+    @Bean
+    @ConditionalOnProperty(
+        value = ["kafka-config.consumers.service-error-logs-consumer.enabled"],
+        havingValue = "true",
+        matchIfMissing = true
+    )
+    fun serviceErrorLogsKafkaListenerContainerFactory(): KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, LogDto>> =
+        concurrentKafkaListenerContainerFactory(kafkaConfigProperties(), "service-error-logs-consumer", LogDto::class.java)
+
+    private fun <T> concurrentKafkaListenerContainerFactory(
         properties: KafkaCustomProperties,
         consumerName: String,
         modelClass: Class<T>
@@ -61,7 +70,6 @@ class KafkaConsumerConfig {
     private fun consumerSettings(consumerName: String, kafkaCustomProperties: KafkaCustomProperties): Map<String, Any> {
         val consumer = kafkaCustomProperties.consumers[consumerName]
         val consumerProperties = (consumer?.buildProperties() ?: mapOf()).toMutableMap()
-
         val properties = kafkaCustomProperties.buildProperties()
 
         properties.putAll(consumerProperties)

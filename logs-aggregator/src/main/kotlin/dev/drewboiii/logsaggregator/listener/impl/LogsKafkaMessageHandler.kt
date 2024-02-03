@@ -1,6 +1,7 @@
-package dev.drewboiii.logsaggregator.listener
+package dev.drewboiii.logsaggregator.listener.impl
 
 import dev.drewboiii.logsaggregator.dto.LogDto
+import dev.drewboiii.logsaggregator.listener.KafkaMessageHandler
 import mu.KotlinLogging
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
 import org.springframework.kafka.annotation.KafkaListener
@@ -10,16 +11,16 @@ private val log = KotlinLogging.logger {}
 
 @Component
 @ConditionalOnBean(name = ["serviceLogsKafkaListenerContainerFactory"])
-class ServiceLogsListener {
+class LogsKafkaMessageHandler : KafkaMessageHandler<LogDto> {
 
     @KafkaListener(
-        topics = ["\${kafka-config.consumers.service-logs-topic.topic}"],
-        groupId = "\${kafka-config.consumers.service-logs-topic.group-id}",
+        topics = ["\${kafka-config.consumers.service-logs-consumer.topic}"],
+        groupId = "\${kafka-config.consumers.service-logs-consumer.group-id}",
         containerFactory = "serviceLogsKafkaListenerContainerFactory",
         concurrency = "2"
     )
-    fun consume(logDto: LogDto) {
-        log.info { "Consumed: $logDto" }
+    override fun handleMessage(message: LogDto) {
+        log.info { "Treat as common log: $message" }
     }
 
 }
