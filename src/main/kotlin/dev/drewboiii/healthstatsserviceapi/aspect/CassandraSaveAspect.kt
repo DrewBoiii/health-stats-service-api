@@ -38,7 +38,7 @@ class CassandraSaveAspect(
             cassandraService.saveDayStats(it, todayStats)
             val message = "Day statistics for $it were saved."
             logger.info { message }
-            kafkaService?.sendLogs(message, LogLevel.INFO)
+            kafkaService?.sendLog(message, LogLevel.INFO)
         }
     }
 
@@ -57,7 +57,7 @@ class CassandraSaveAspect(
             cassandraService.saveAvailableCountries(HealthStatsProviderType.valueOf(it), countries)
             val message = "Available countries for $it were saved."
             logger.info { message }
-            kafkaService?.sendLogs(message, LogLevel.INFO)
+            kafkaService?.sendLog(message, LogLevel.INFO)
         }
     }
 

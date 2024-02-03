@@ -33,7 +33,7 @@ class LoggingAspect(
 
         logger.info { message }
 
-        kafkaService?.sendLogs(message, LoggingService.LogLevel.INFO)
+        kafkaService?.sendLog(message, LoggingService.LogLevel.INFO)
     }
 
     @Before("@annotation(postMapping)")
@@ -50,7 +50,7 @@ class LoggingAspect(
 
         logger.info { message }
 
-        kafkaService?.sendLogs(message, LoggingService.LogLevel.INFO)
+        kafkaService?.sendLog(message, LoggingService.LogLevel.INFO)
     }
 
 }

@@ -27,7 +27,7 @@ class ExceptionAdvice(
         val parameterNames = request?.parameterMap?.keys
         val errorMessage = "Unknown error occurred \nRequest URL: $url \nParameter names: $parameterNames"
         logger.error(errorMessage, ex)
-        kafkaService?.sendLogs(errorMessage, LoggingService.LogLevel.ERROR, ex, HttpStatus.INTERNAL_SERVER_ERROR)
+        kafkaService?.sendLog(errorMessage, LoggingService.LogLevel.ERROR, ex, HttpStatus.INTERNAL_SERVER_ERROR)
         return errorMessage
     }
 
@@ -38,7 +38,7 @@ class ExceptionAdvice(
         val parameterNames = request?.parameterMap?.keys
         val errorMessage = "Service is unavailable, provider is not connected \nRequest URL: $url \nParameter names: $parameterNames"
         logger.error(errorMessage, ex)
-        kafkaService?.sendLogs(errorMessage, LoggingService.LogLevel.ERROR, ex, HttpStatus.SERVICE_UNAVAILABLE)
+        kafkaService?.sendLog(errorMessage, LoggingService.LogLevel.ERROR, ex, HttpStatus.SERVICE_UNAVAILABLE)
         return errorMessage
     }
 
@@ -47,7 +47,7 @@ class ExceptionAdvice(
     fun notImplementedExceptionHandler(ex: NotImplementedException): String? {
         val message = ex.message ?: "Not Implemented"
         logger.error { message }
-        kafkaService?.sendLogs(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.NOT_IMPLEMENTED)
+        kafkaService?.sendLog(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.NOT_IMPLEMENTED)
         return message
     }
 
@@ -56,7 +56,7 @@ class ExceptionAdvice(
     fun unknownProviderExceptionHandler(ex: UnknownProviderException): String? {
         val message = ex.message ?: "Bad Request"
         logger.error { message }
-        kafkaService?.sendLogs(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.BAD_REQUEST)
+        kafkaService?.sendLog(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.BAD_REQUEST)
         return message
     }
 
@@ -65,7 +65,7 @@ class ExceptionAdvice(
     fun notFoundExceptionHandler(ex: NotFoundException): String? {
         val message = ex.message ?: "Not Found"
         logger.error { message }
-        kafkaService?.sendLogs(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.NOT_FOUND)
+        kafkaService?.sendLog(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.NOT_FOUND)
         return message
     }
 
@@ -74,7 +74,7 @@ class ExceptionAdvice(
     fun methodNotAllowedExceptionHandler(ex: HttpRequestMethodNotSupportedException): String? {
         val message = ex.message ?: "Method Not Allowed"
         logger.error { message }
-        kafkaService?.sendLogs(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.METHOD_NOT_ALLOWED)
+        kafkaService?.sendLog(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.METHOD_NOT_ALLOWED)
         return message
     }
 
@@ -83,7 +83,7 @@ class ExceptionAdvice(
     fun tooManyRequestsExceptionHandler(ex: TooManyRequestsException): String? {
         val message = ex.message ?: "Too Many Requests"
         logger.error { message }
-        kafkaService?.sendLogs(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.TOO_MANY_REQUESTS)
+        kafkaService?.sendLog(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.TOO_MANY_REQUESTS)
         return message
     }
 

@@ -22,7 +22,7 @@ class KafkaService(
     private val kafkaProducerService: KafkaProducerService
 ) {
 
-    fun sendLogs(
+    fun sendLog(
         message: String,
         logLevel: LoggingService.LogLevel,
         exception: Exception? = null,
@@ -45,6 +45,29 @@ class KafkaService(
                 ex?.let { logger.error { it.message } }
                 result?.let { logger.info { "Message was successfully delivered to the topic - ${it.producerRecord.topic()}" } }
             }
+    }
+
+    fun sendLogs(
+        messages: List<String>,
+        logLevel: LoggingService.LogLevel,
+        exception: Exception? = null,
+        httpStatus: HttpStatus? = null
+    ) {
+        val headers = mapOf(KafkaHeaders.TOPIC to appKafkaPropertiesMap.topic.logs)
+
+        messages.map {
+            LogDto(
+                message = it,
+                level = logLevel,
+                date = LocalDate.now(),
+                time = LocalTime.now(),
+                serviceName = serverName,
+                exception = exception,
+                httpStatus = httpStatus
+            )
+        }.apply {
+            kafkaProducerService.sendMessages(this, headers)
+        }
     }
 
 }

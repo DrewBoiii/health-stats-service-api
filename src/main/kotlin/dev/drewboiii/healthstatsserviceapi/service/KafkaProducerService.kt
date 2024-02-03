@@ -21,4 +21,17 @@ class KafkaProducerService(
         return kafkaTemplate.send(message)
     }
 
+    fun sendMessages(payload: List<Any>, headers: Map<String, String>): Boolean {
+        val messages = payload.map {
+            val messageBuilder = MessageBuilder.withPayload(payload)
+            headers.forEach { messageBuilder.setHeader(it.key, it.value) }
+            messageBuilder.build()
+        }
+
+        return kafkaTemplate.executeInTransaction { template ->
+            messages.forEach { template.send(it) }
+            return@executeInTransaction true
+        }
+    }
+
 }
