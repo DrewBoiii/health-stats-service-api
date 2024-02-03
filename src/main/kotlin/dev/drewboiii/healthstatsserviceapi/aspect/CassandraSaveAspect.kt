@@ -3,6 +3,8 @@ package dev.drewboiii.healthstatsserviceapi.aspect
 import dev.drewboiii.healthstatsserviceapi.dto.HealthServiceTodayStatsResponse
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
 import dev.drewboiii.healthstatsserviceapi.service.CassandraService
+import dev.drewboiii.healthstatsserviceapi.service.KafkaService
+import dev.drewboiii.healthstatsserviceapi.service.LoggingService.LogLevel
 import mu.KotlinLogging
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.AfterReturning
@@ -17,7 +19,8 @@ private val logger = KotlinLogging.logger { }
 @Component
 @ConditionalOnProperty(name = ["application.cassandra.enabled"], havingValue = "true", matchIfMissing = true)
 class CassandraSaveAspect(
-    private val cassandraService: CassandraService
+    private val cassandraService: CassandraService,
+    private val kafkaService: KafkaService?
 ) {
 
     @AfterReturning(
@@ -33,7 +36,9 @@ class CassandraSaveAspect(
 
         buildArgs["providerName"]?.let {
             cassandraService.saveDayStats(it, todayStats)
-            logger.info { "Day statistics for $it were saved." }
+            val message = "Day statistics for $it were saved."
+            logger.info { message }
+            kafkaService?.sendLogs(message, LogLevel.INFO)
         }
     }
 
@@ -50,7 +55,9 @@ class CassandraSaveAspect(
 
         buildArgs["providerName"]?.let {
             cassandraService.saveAvailableCountries(HealthStatsProviderType.valueOf(it), countries)
-            logger.info { "Available countries for $it were saved." }
+            val message = "Available countries for $it were saved."
+            logger.info { message }
+            kafkaService?.sendLogs(message, LogLevel.INFO)
         }
     }
 

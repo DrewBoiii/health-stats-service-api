@@ -1,7 +1,6 @@
 package dev.drewboiii.logsaggregator.config
 
 import dev.drewboiii.logsaggregator.dto.LogDto
-import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -62,9 +61,6 @@ class KafkaConsumerConfig {
     private fun consumerSettings(consumerName: String, kafkaCustomProperties: KafkaCustomProperties): Map<String, Any> {
         val consumer = kafkaCustomProperties.consumers[consumerName]
         val consumerProperties = (consumer?.buildProperties() ?: mapOf()).toMutableMap()
-
-        consumerProperties[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] =
-            kafkaCustomProperties.bootstrapServers.firstOrNull() ?: "localhost:29092"
 
         val properties = kafkaCustomProperties.buildProperties()
 
