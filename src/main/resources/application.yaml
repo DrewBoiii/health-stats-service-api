@@ -4,6 +4,13 @@ spring:
     url: ${POSTGRES_URL}
     username: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
+    hikari:
+      minimum-idle: 3
+      maximum-pool-size: 10
+      pool-name: HealthStatsAPIPool
+      leak-detection-threshold: 60000
+    transaction:
+      default-timeout: 600s
   jpa:
     generate-ddl: true
     hibernate:
@@ -32,12 +39,34 @@ spring:
   kafka:
     admin:
       auto-create: false
+  jmx:
+    enabled: false
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.data.cassandra.CassandraDataAutoConfiguration
       - org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration
       - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
       - org.springframework.boot.actuate.autoconfigure.metrics.KafkaMetricsAutoConfiguration
+#      - org.springframework.cloud.client.ReactiveCommonsClientAutoConfiguration
+#      - org.springframework.boot.actuate.autoconfigure.availability.AvailabilityHealthContributorAutoConfiguration
+#      - org.springframework.boot.autoconfigure.ssl.SslAutoConfiguration
+#      - org.springframework.boot.actuate.autoconfigure.info.InfoContributorAutoConfiguration
+#      - org.springframework.cloud.client.discovery.simple.SimpleDiscoveryClientAutoConfiguration
+#      - org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration
+#      - org.springframework.boot.autoconfigure.context.LifecycleAutoConfiguration
+#      - org.springframework.cloud.client.CommonsClientAutoConfiguration
+#      - org.springframework.boot.actuate.autoconfigure.metrics.integration.IntegrationMetricsAutoConfiguration
+#      - org.springframework.boot.actuate.autoconfigure.endpoint.EndpointAutoConfiguration
+#      - org.springframework.cloud.commons.config.CommonsConfigAutoConfiguration
+#      - org.springframework.boot.actuate.autoconfigure.web.server.ManagementContextAutoConfiguration
+#      - org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappingsProviderAutoConfiguration
+#      - org.springframework.cloud.client.discovery.composite.CompositeDiscoveryClientAutoConfiguration
+#      - org.springframework.boot.actuate.autoconfigure.health.HealthContributorAutoConfiguration
+#      - org.springframework.cloud.client.serviceregistry.ServiceRegistryAutoConfiguration
+#      - org.springframework.cloud.autoconfigure.LifecycleMvcEndpointAutoConfiguration
+#      - org.springframework.boot.actuate.autoconfigure.endpoint.jackson.JacksonEndpointAutoConfiguration
+#      - org.springframework.boot.autoconfigure.availability.ApplicationAvailabilityAutoConfiguration
+#      - org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration
 
 application:
   name: health-stats-service-api

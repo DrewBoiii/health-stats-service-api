@@ -40,6 +40,8 @@ logging:
             Covid19Client: DEBUG
     org:
       springframework:
+#        boot:
+#          autoconfigure: DEBUG
         data:
           cassandra:
             core:

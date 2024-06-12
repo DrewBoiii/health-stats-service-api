@@ -5,6 +5,7 @@ import dev.drewboiii.healthstatsserviceapi.service.KafkaService
 import dev.drewboiii.healthstatsserviceapi.service.LoggingService
 import feign.RetryableException
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException
+import jakarta.annotation.PostConstruct
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.web.HttpRequestMethodNotSupportedException
@@ -46,7 +47,7 @@ class ExceptionAdvice(
     @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
     fun notImplementedExceptionHandler(ex: NotImplementedException): String? {
         val message = ex.message ?: "Not Implemented"
-        logger.error { message }
+        logger.error(ex) { message }
         kafkaService?.sendLog(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.NOT_IMPLEMENTED)
         return message
     }
@@ -55,7 +56,7 @@ class ExceptionAdvice(
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun unknownProviderExceptionHandler(ex: UnknownProviderException): String? {
         val message = ex.message ?: "Bad Request"
-        logger.error { message }
+        logger.error(ex) { message }
         kafkaService?.sendLog(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.BAD_REQUEST)
         return message
     }
@@ -64,7 +65,7 @@ class ExceptionAdvice(
     @ResponseStatus(HttpStatus.NOT_FOUND)
     fun notFoundExceptionHandler(ex: NotFoundException): String? {
         val message = ex.message ?: "Not Found"
-        logger.error { message }
+        logger.error(ex) { message }
         kafkaService?.sendLog(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.NOT_FOUND)
         return message
     }
@@ -73,7 +74,7 @@ class ExceptionAdvice(
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     fun methodNotAllowedExceptionHandler(ex: HttpRequestMethodNotSupportedException): String? {
         val message = ex.message ?: "Method Not Allowed"
-        logger.error { message }
+        logger.error(ex) { message }
         kafkaService?.sendLog(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.METHOD_NOT_ALLOWED)
         return message
     }
@@ -82,9 +83,14 @@ class ExceptionAdvice(
     @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
     fun tooManyRequestsExceptionHandler(ex: TooManyRequestsException): String? {
         val message = ex.message ?: "Too Many Requests"
-        logger.error { message }
+        logger.error(ex) { message }
         kafkaService?.sendLog(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.TOO_MANY_REQUESTS)
         return message
+    }
+
+    @PostConstruct
+    fun init() = Thread.setDefaultUncaughtExceptionHandler { thread, exception ->
+        logger.error(exception) { "Uncaught exception in thread ${thread.name}: ${exception.message}" }
     }
 
 }

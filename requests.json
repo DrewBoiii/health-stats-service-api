@@ -1,0 +1,436 @@
+{
+  "version": 6,
+  "entities": [
+    {
+      "entity": {
+        "type": "Project",
+        "id": "130c55a4-c1b8-457a-9dbf-f84a491825f3",
+        "name": "health-stats-service-api"
+      },
+      "children": [
+        {
+          "entity": {
+            "type": "Scenario",
+            "id": "3cae91a1-a0b9-4c9e-b8da-34b63e90ec2c",
+            "name": "Scenario 1"
+          },
+          "children": [
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+                  "name": "GET"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": []
+                  },
+                  "bodyType": "Text"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": [
+                      {
+                        "enabled": true,
+                        "name": "country",
+                        "value": "Russia"
+                      },
+                      {
+                        "enabled": true,
+                        "name": "provider",
+                        "value": "COVID19"
+                      }
+                    ]
+                  },
+                  "scheme": {
+                    "name": "http",
+                    "version": "V11"
+                  },
+                  "host": "localhost:8080",
+                  "path": "/stats/today"
+                },
+                "id": "11481a89-2ef7-4b30-8119-63bb4ba99d04",
+                "name": "/stats/today",
+                "headers": []
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+                  "name": "GET"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": []
+                  },
+                  "bodyType": "Text"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "secure": true,
+                    "name": "https",
+                    "version": "V11"
+                  },
+                  "host": "covid-193.p.rapidapi.com",
+                  "path": "/countries"
+                },
+                "id": "28a5ea88-a5da-4c6d-b618-0eb574cb79ce",
+                "name": "Countries",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "X-RapidAPI-Key",
+                    "value": "512a8ec25cmsh69c0e664045c119p1fb528jsn0f5deea831cf"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "X-RapidAPI-Host",
+                    "value": "covid-193.p.rapidapi.com"
+                  }
+                ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+                  "name": "GET"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": []
+                  },
+                  "bodyType": "Text"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": [
+                      {
+                        "enabled": true,
+                        "name": "country",
+                        "value": "Italy"
+                      }
+                    ]
+                  },
+                  "scheme": {
+                    "secure": true,
+                    "name": "https",
+                    "version": "V11"
+                  },
+                  "host": "covid-193.p.rapidapi.com",
+                  "path": "/statistics"
+                },
+                "id": "10dc719c-034b-45a0-b99a-272f29f37b74",
+                "name": "Statistics",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "X-RapidAPI-Key",
+                    "value": "512a8ec25cmsh69c0e664045c119p1fb528jsn0f5deea831cf"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "X-RapidAPI-Host",
+                    "value": "covid-193.p.rapidapi.com"
+                  }
+                ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+                  "name": "GET"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": []
+                  },
+                  "bodyType": "Text"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": [
+                      {
+                        "enabled": true,
+                        "name": "country",
+                        "value": "Russia"
+                      },
+                      {
+                        "enabled": true,
+                        "name": "day",
+                        "value": "2023-09-19"
+                      }
+                    ]
+                  },
+                  "scheme": {
+                    "secure": true,
+                    "name": "https",
+                    "version": "V11"
+                  },
+                  "host": "covid-193.p.rapidapi.com",
+                  "path": "/history"
+                },
+                "id": "710aae5a-3972-4224-b3c4-7749cc965f99",
+                "name": "History",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "X-RapidAPI-Key",
+                    "value": "512a8ec25cmsh69c0e664045c119p1fb528jsn0f5deea831cf"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "X-RapidAPI-Host",
+                    "value": "covid-193.p.rapidapi.com"
+                  }
+                ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+                  "name": "GET"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": []
+                  },
+                  "bodyType": "Text"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": [
+                      {
+                        "enabled": true,
+                        "name": "provider",
+                        "value": "COVID19"
+                      }
+                    ]
+                  },
+                  "scheme": {
+                    "name": "http",
+                    "version": "V11"
+                  },
+                  "host": "localhost:8080",
+                  "path": "/stats/countries"
+                },
+                "id": "3e58382c-bceb-4d29-95f1-61606dc06497",
+                "name": "/stats/countries",
+                "headers": []
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+                  "name": "GET"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": []
+                  },
+                  "bodyType": "Text"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "http",
+                    "version": "V11"
+                  },
+                  "host": "localhost:8080",
+                  "path": "/stats/providers"
+                },
+                "id": "797df01c-485e-4633-8cb0-24f82fdfd798",
+                "name": "/stats/providers",
+                "headers": []
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+                  "name": "GET"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": []
+                  },
+                  "bodyType": "Text"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "http",
+                    "version": "V11"
+                  },
+                  "host": "localhost:8080",
+                  "path": "/test/warmup/stats"
+                },
+                "id": "ce7640b2-6ec3-4b6c-968b-6a13ebbcde88",
+                "name": "/test/warmup/stats",
+                "headers": []
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+                  "name": "GET"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": []
+                  },
+                  "bodyType": "Text"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": [
+                      {
+                        "enabled": true,
+                        "name": "country",
+                        "value": "USA,Sweden"
+                      },
+                      {
+                        "enabled": true,
+                        "name": "provider",
+                        "value": "COVID19"
+                      },
+                      {
+                        "enabled": true,
+                        "name": "day",
+                        "value": "2024-02-01"
+                      }
+                    ]
+                  },
+                  "scheme": {
+                    "name": "http",
+                    "version": "V11"
+                  },
+                  "host": "localhost:8080",
+                  "path": "/stats/history"
+                },
+                "id": "0aa7ccb2-1e00-4f7b-ae39-a2e3454e23aa",
+                "name": "/stats/history",
+                "headers": []
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "requestBody": true,
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                  "name": "POST"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": []
+                  },
+                  "bodyType": "Text"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "http",
+                    "version": "V11"
+                  },
+                  "host": "localhost:8080",
+                  "path": "/admin/caches/invalidate"
+                },
+                "id": "62cfa688-ce8f-47b5-94de-b223ca5cc696",
+                "name": "/admin/caches/invalidate",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Content-Type",
+                    "value": "application/json"
+                  }
+                ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+                  "name": "GET"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": []
+                  },
+                  "bodyType": "Text"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "http",
+                    "version": "V11"
+                  },
+                  "host": "localhost:8080",
+                  "path": "/actuator/health"
+                },
+                "id": "3051eea9-47db-445f-a0f3-a497e0a7bd2a",
+                "name": "Actuator",
+                "headers": []
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
