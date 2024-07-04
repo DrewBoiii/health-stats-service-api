@@ -1,5 +1,6 @@
 package dev.drewboiii.healthstatsserviceapi.dto
 
+import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
 import java.time.LocalDateTime
 
 data class HivStatisticsTodayResponse(
@@ -53,5 +54,6 @@ fun Statistics.toHealthServiceTodayStatsResponse() = HealthServiceTodayStatsResp
     newDeaths = this.cases.dead.lethal?.toString(),
     totalDeaths = this.cases.dead.total,
     vaccinated = this.cases.cured.totalRecovered,
-    day = this.date.toLocalDate()
+    day = this.date.toLocalDate(),
+    providerName = HealthStatsProviderType.HIV.name
 )

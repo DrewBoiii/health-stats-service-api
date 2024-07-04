@@ -8,4 +8,6 @@ interface HealthStatsProvider {
 
     fun getAvailableCountries(): List<String>
 
+    fun getProviderName(): String
+
 }

@@ -1,6 +1,7 @@
 package dev.drewboiii.healthstatsserviceapi.dto
 
 import com.fasterxml.jackson.annotation.JsonAlias
+import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
 
 open class Covid19BaseResponse(
     open val get: String,
@@ -71,5 +72,6 @@ fun Covid19StatisticsResponse.Stats.toDto(country: String): HealthServiceTodaySt
         totalInfected = this.cases.total,
         newDeaths = this.deaths.new,
         totalDeaths = this.deaths.total,
-        vaccinated = this.tests.total
+        vaccinated = this.tests.total,
+        providerName = HealthStatsProviderType.COVID19.name
     )
