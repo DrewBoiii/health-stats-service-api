@@ -41,14 +41,19 @@ class HealthStatsService(
         return runBlocking(Dispatchers.Default) {
             coroutineScope {
                 providers.map { it.getProviderName() }
-                    .filterNot { it == "CANCER" } //todo exception handling
                     .map {
                         async {
-                            getTodayStatsSuspend(country, it)
-                                .also { logger.info { "Got data from ${it.providerName}." } }
+                            try {
+                                getTodayStatsSuspend(country, it)
+                                    .also { logger.info { "Got data from ${it.providerName}." } }
+                            } catch (ex: RuntimeException) {
+                                logger.error(ex) { "Exception while retrieving data from $it" }
+                                return@async null
+                            }
                         }
                     }
                     .awaitAll()
+                    .mapNotNull { it }
             }
         }
     }
