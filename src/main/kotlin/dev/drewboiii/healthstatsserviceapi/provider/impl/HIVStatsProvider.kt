@@ -5,8 +5,11 @@ import dev.drewboiii.healthstatsserviceapi.dto.HealthServiceTodayStatsResponse
 import dev.drewboiii.healthstatsserviceapi.dto.HivStatisticsTodayResponse
 import dev.drewboiii.healthstatsserviceapi.dto.toHealthServiceTodayStatsResponse
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProvider
+import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
+import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 
+@Order(2)
 @Component("HIV")
 class HIVStatsProvider(
     private val hivClient: HivClient
@@ -26,6 +29,6 @@ class HIVStatsProvider(
         return if (quantity > 0) countries.toList() else emptyList()
     }
 
-    fun hivFallback(throwable: Throwable) = HivStatisticsTodayResponse(statistics = emptyList())
+    override fun getProviderName(): String = HealthStatsProviderType.HIV.name
 
 }

@@ -19,6 +19,10 @@ class HealthStatsController(
     fun getTodayStats(@RequestParam country: String, @RequestParam provider: String): HealthServiceTodayStatsResponse =
         healthStatsService.getTodayStats(country, provider)
 
+    @GetMapping("/today/all")
+    fun getTodayStats(@RequestParam country: String): List<HealthServiceTodayStatsResponse> =
+        healthStatsService.getTodayStats(country)
+
     @GetMapping("/countries")
     fun getAvailableCountries(@RequestParam provider: String): HealthServiceAvailableCountriesResponse =
         HealthServiceAvailableCountriesResponse(countries = healthStatsService.getAvailableCountries(provider))

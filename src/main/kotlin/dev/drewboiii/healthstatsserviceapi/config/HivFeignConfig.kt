@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 class HivFeignConfig(
     @Value("\${feign.client.config.hiv.api.retry-max-attempts:5}")
     private val retryMaxAttempts: Int
-): FeignConfig() {
+) : FeignConfig() {
 
     @Bean
     fun feignLoggerLevel(): Logger.Level = Logger.Level.FULL

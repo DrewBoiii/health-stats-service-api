@@ -4,8 +4,11 @@ import dev.drewboiii.healthstatsserviceapi.client.Covid19Client
 import dev.drewboiii.healthstatsserviceapi.dto.HealthServiceTodayStatsResponse
 import dev.drewboiii.healthstatsserviceapi.dto.toDto
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProvider
+import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
+import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 
+@Order(1)
 @Component("COVID19")
 class Covid19StatsProvider(val client: Covid19Client) : HealthStatsProvider {
 
@@ -30,4 +33,6 @@ class Covid19StatsProvider(val client: Covid19Client) : HealthStatsProvider {
 
         return if (results > 0) response else emptyList()
     }
+
+    override fun getProviderName(): String = HealthStatsProviderType.COVID19.name
 }

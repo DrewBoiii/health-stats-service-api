@@ -19,7 +19,8 @@ data class HealthServiceTodayStatsResponse(
     val newDeaths: String? = null,
     val totalDeaths: Long?,
     val vaccinated: Long?,
-    val day: LocalDate = LocalDate.now()
+    val day: LocalDate = LocalDate.now(),
+    val providerName: String
 )
 
 data class HealthServiceAvailableCountriesResponse(

@@ -9,9 +9,6 @@ import org.springframework.context.annotation.Bean
 open class FeignConfig {
 
     @Bean
-    fun logger() = KotlinLogging.logger { }
-
-    @Bean
     fun errorDecoder(): ErrorDecoder = FeignErrorDecoder()
 
 }
