@@ -53,7 +53,9 @@ logging:
             core:
               cql:
                 CqlTemplate: DEBUG
-
+          mongodb:
+            core:
+              MongoTemplate: DEBUG
 feign:
   client:
     config:

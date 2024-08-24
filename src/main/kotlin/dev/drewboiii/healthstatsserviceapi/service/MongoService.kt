@@ -3,14 +3,12 @@ package dev.drewboiii.healthstatsserviceapi.service
 import org.springframework.dao.DuplicateKeyException
 import dev.drewboiii.healthstatsserviceapi.dto.HealthServiceTodayStatsResponse
 import dev.drewboiii.healthstatsserviceapi.dto.toMongoModel
-import dev.drewboiii.healthstatsserviceapi.persistence.CountryEntity
-import dev.drewboiii.healthstatsserviceapi.persistence.DayStatisticsMongoRepository
-import dev.drewboiii.healthstatsserviceapi.persistence.ProviderEntity
-import dev.drewboiii.healthstatsserviceapi.persistence.ProvidersMongoRepository
+import dev.drewboiii.healthstatsserviceapi.persistence.*
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
 import mu.KLogging
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.util.*
 
 @Service
@@ -22,7 +20,7 @@ class MongoService(
 
     override fun saveDayStats(providerName: String, todayStats: HealthServiceTodayStatsResponse) {
         try {
-        dayStatisticsMongoRepository.save(todayStats.toMongoModel(providerName))
+            dayStatisticsMongoRepository.save(todayStats.toMongoModel(providerName))
         } catch (ex: DuplicateKeyException) {
             logger.error(ex) { "Duplicate key while saving day statistics to provider $providerName" }
         }
@@ -47,6 +45,15 @@ class MongoService(
         }
     }
 
-    companion object: KLogging()
+    fun getProviders(): List<ProviderEntity> = providersMongoRepository.findAll()
+
+    fun getStatsByDay(providerName: String, countries: List<String>?, reqDate: LocalDate): List<DayStatisticsEntity> =
+        //todo find by exact date
+        if (countries != null)
+            dayStatisticsMongoRepository.findByProviderAndCountryInAndReqDate(providerName, countries, reqDate)
+        else
+            dayStatisticsMongoRepository.findByProviderAndReqDate(providerName, reqDate)
+
+    companion object : KLogging()
 
 }

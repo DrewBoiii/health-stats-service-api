@@ -3,12 +3,16 @@ package dev.drewboiii.healthstatsserviceapi.persistence
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.data.mongodb.repository.Query
+import java.time.LocalDate
 
 @ConditionalOnProperty(name = ["application.mongo.enabled"], havingValue = "true", matchIfMissing = true)
 interface DayStatisticsMongoRepository : MongoRepository<DayStatisticsEntity, String> {
 
-    @Query("{country:'?0'}")
-    fun findByCountry(country: String): DayStatisticsEntity?
+    @Query("{ provider: '?0', country: { \$in: ?1 }, reqDate: { \$gte: ?2 } }")
+    fun findByProviderAndCountryInAndReqDate(provider: String, countries: List<String>, reqDate: LocalDate): List<DayStatisticsEntity>
+
+    @Query("{ provider: '?0', reqDate: { \$gte: ?1 } }")
+    fun findByProviderAndReqDate(provider: String, reqDate: LocalDate): List<DayStatisticsEntity>
 
 }
 

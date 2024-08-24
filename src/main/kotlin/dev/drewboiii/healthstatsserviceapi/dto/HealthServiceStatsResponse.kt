@@ -32,6 +32,8 @@ data class HealthServiceAvailableProviders(
     val providers: Set<String>
 )
 
+
+
 fun HealthServiceTodayStatsResponse.toCassandraModel(providerName: String) = DayStatistics(
     id = UUID.randomUUID(),
     reqDate = LocalDate.now(),
