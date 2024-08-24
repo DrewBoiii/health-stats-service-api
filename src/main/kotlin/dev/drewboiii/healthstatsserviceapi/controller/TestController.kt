@@ -4,13 +4,11 @@ import dev.drewboiii.healthstatsserviceapi.exception.NotImplementedException
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
 import dev.drewboiii.healthstatsserviceapi.service.HealthStatsService
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException
-import mu.KotlinLogging
+import mu.KLogging
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-
-private val logger = KotlinLogging.logger { }
 
 @RestController
 @RequestMapping("/test")
@@ -42,5 +40,7 @@ class TestController(
         }
         return "Success"
     }
+
+    companion object: KLogging()
 
 }

@@ -6,15 +6,13 @@ import dev.drewboiii.healthstatsserviceapi.service.LoggingService
 import feign.RetryableException
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException
 import jakarta.annotation.PostConstruct
-import mu.KotlinLogging
+import mu.KLogging
 import org.springframework.http.HttpStatus
 import org.springframework.web.HttpRequestMethodNotSupportedException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.ServletWebRequest
-
-private val logger = KotlinLogging.logger {}
 
 @RestControllerAdvice
 class ExceptionAdvice(
@@ -52,9 +50,9 @@ class ExceptionAdvice(
         return message
     }
 
-    @ExceptionHandler(value = [UnknownProviderException::class])
+    @ExceptionHandler(value = [UnknownProviderException::class, CountryNotSupportedException::class])
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    fun unknownProviderExceptionHandler(ex: UnknownProviderException): String? {
+    fun badRequestExceptionHandler(ex: ApplicationException): String? {
         val message = ex.message ?: "Bad Request"
         logger.error(ex) { message }
         kafkaService?.sendLog(message, LoggingService.LogLevel.ERROR, ex, HttpStatus.BAD_REQUEST)
@@ -92,5 +90,7 @@ class ExceptionAdvice(
     fun init() = Thread.setDefaultUncaughtExceptionHandler { thread, exception ->
         logger.error(exception) { "Uncaught exception in thread ${thread.name}: ${exception.message}" }
     }
+
+    companion object: KLogging()
 
 }
