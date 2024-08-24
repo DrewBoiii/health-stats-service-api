@@ -1,9 +1,6 @@
 package dev.drewboiii.healthstatsserviceapi.service
 
-import dev.drewboiii.healthstatsserviceapi.dto.HistoryStatisticsByDay
-import dev.drewboiii.healthstatsserviceapi.dto.ProvidersResponse
-import dev.drewboiii.healthstatsserviceapi.dto.toHistoryStatisticsByDay
-import dev.drewboiii.healthstatsserviceapi.dto.toProvidersResponse
+import dev.drewboiii.healthstatsserviceapi.dto.*
 import dev.drewboiii.healthstatsserviceapi.exception.UnknownProviderException
 import mu.KLogging
 import org.springframework.stereotype.Service
@@ -61,6 +58,9 @@ class HistoryHealthStatsService(
 
     fun getProviders(): ProvidersResponse =
         mongoService?.getProviders()?.toProvidersResponse() ?: ProvidersResponse(providers = emptyList())
+
+    fun appendCountryToProvider(request: NewCountryToProviderRequest): ProviderResponse? =
+        mongoService?.appendNewCountryToProvider(request.provider, request.countries)?.toProviderResponse()
 
     companion object : KLogging()
 }

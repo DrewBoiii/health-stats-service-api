@@ -15,7 +15,8 @@ import java.util.*
 @ConditionalOnProperty(name = ["application.mongo.enabled"], havingValue = "true", matchIfMissing = true)
 class MongoService(
     private val dayStatisticsMongoRepository: DayStatisticsMongoRepository,
-    private val providersMongoRepository: ProvidersMongoRepository
+    private val providersMongoRepository: ProvidersMongoRepository,
+    private val providersCustomMongoRepository: ProvidersCustomMongoRepository
 ) : AspectHealthStatsPersistable {
 
     override fun saveDayStats(providerName: String, todayStats: HealthServiceTodayStatsResponse) {
@@ -53,6 +54,9 @@ class MongoService(
             dayStatisticsMongoRepository.findByProviderAndCountryInAndReqDate(providerName, countries, reqDate)
         else
             dayStatisticsMongoRepository.findByProviderAndReqDate(providerName, reqDate)
+
+    fun appendNewCountryToProvider(provider: String, countries: Set<String>): ProviderEntity? =
+        providersCustomMongoRepository.appendNewCountryToProvider(provider, countries)
 
     companion object : KLogging()
 

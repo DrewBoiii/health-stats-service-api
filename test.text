@@ -31,7 +31,11 @@ db.providers.update(
   }
 )
 
+{ provider: "COVID19", country: { $in: ["Russia", "Finland"] }, reqDate: { $gte: ISODate("2024-08-24") } }
+
+{ reqDate: { $gte: ISODate("2024-08-24"), $lt: ISODate("2024-08-25") } }
+
 Задача:
-Добавить страну в провайдер
+Добавить страну в провайдер (COVID19: Afghanistan, Albania. HIV: Argentina)
 Дубликатов быть не должно
 При реализации использовать Criteria
