@@ -44,7 +44,7 @@ class HealthStatsService(
                     .map {
                         async {
                             try {
-                                getTodayStatsSuspend(country, it)
+                                getTodayStatsAll(country, it)
                                     .also { logger.info { "Got data from ${it.providerName}." } }
                             } catch (ex: RuntimeException) {
                                 logger.error(ex) { "Exception while retrieving data from $it" }
@@ -58,7 +58,7 @@ class HealthStatsService(
         }
     }
 
-    private suspend fun getTodayStatsSuspend(country: String, providerName: String): HealthServiceTodayStatsResponse {
+    private suspend fun getTodayStatsAll(country: String, providerName: String): HealthServiceTodayStatsResponse {
         val statsProvider = getProvidersMap()[providerName] ?: throw UnknownProviderException(providerName)
 
         logger.info { "Getting data from ${statsProvider.getProviderName()}..." }
