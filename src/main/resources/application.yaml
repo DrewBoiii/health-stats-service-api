@@ -36,6 +36,9 @@ spring:
       init-query-timeout: 60s
     request:
       timeout: 60s
+  data:
+    mongodb:
+      auto-index-creation: true
   kafka:
     admin:
       auto-create: false
@@ -47,26 +50,9 @@ spring:
       - org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration
       - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
       - org.springframework.boot.actuate.autoconfigure.metrics.KafkaMetricsAutoConfiguration
-#      - org.springframework.cloud.client.ReactiveCommonsClientAutoConfiguration
-#      - org.springframework.boot.actuate.autoconfigure.availability.AvailabilityHealthContributorAutoConfiguration
-#      - org.springframework.boot.autoconfigure.ssl.SslAutoConfiguration
-#      - org.springframework.boot.actuate.autoconfigure.info.InfoContributorAutoConfiguration
-#      - org.springframework.cloud.client.discovery.simple.SimpleDiscoveryClientAutoConfiguration
-#      - org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration
-#      - org.springframework.boot.autoconfigure.context.LifecycleAutoConfiguration
-#      - org.springframework.cloud.client.CommonsClientAutoConfiguration
-#      - org.springframework.boot.actuate.autoconfigure.metrics.integration.IntegrationMetricsAutoConfiguration
-#      - org.springframework.boot.actuate.autoconfigure.endpoint.EndpointAutoConfiguration
-#      - org.springframework.cloud.commons.config.CommonsConfigAutoConfiguration
-#      - org.springframework.boot.actuate.autoconfigure.web.server.ManagementContextAutoConfiguration
-#      - org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappingsProviderAutoConfiguration
-#      - org.springframework.cloud.client.discovery.composite.CompositeDiscoveryClientAutoConfiguration
-#      - org.springframework.boot.actuate.autoconfigure.health.HealthContributorAutoConfiguration
-#      - org.springframework.cloud.client.serviceregistry.ServiceRegistryAutoConfiguration
-#      - org.springframework.cloud.autoconfigure.LifecycleMvcEndpointAutoConfiguration
-#      - org.springframework.boot.actuate.autoconfigure.endpoint.jackson.JacksonEndpointAutoConfiguration
-#      - org.springframework.boot.autoconfigure.availability.ApplicationAvailabilityAutoConfiguration
-#      - org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration
+      - org.springframework.boot.autoconfigure.mongo.MongoReactiveAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.mongo.MongoReactiveDataAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration
 
 application:
   name: health-stats-service-api

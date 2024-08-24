@@ -16,13 +16,15 @@ import java.time.LocalDate
 class CassandraService(
     private val dayStatsRepository: DayStatisticsCassandraRepository,
     private val countriesRepository: CountriesCassandraRepository
-) {
+): AspectHealthStatsPersistable {
 
-    fun saveDayStats(providerName: String, todayStats: HealthServiceTodayStatsResponse) =
+    override fun saveDayStats(providerName: String, todayStats: HealthServiceTodayStatsResponse) {
         dayStatsRepository.save(todayStats.toCassandraModel(providerName))
+    }
 
-    fun saveAvailableCountries(provider: HealthStatsProviderType, countries: List<String>) =
+    override fun saveAvailableCountries(provider: HealthStatsProviderType, countries: List<String>) {
         countriesRepository.save(Countries(provider, countries))
+    }
 
     fun getCountries(providerName: String) = countriesRepository.findByProvider(providerName)
 

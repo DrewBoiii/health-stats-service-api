@@ -19,6 +19,10 @@ spring:
       init-query-timeout: 60s
     request:
       timeout: 60s
+  data:
+    mongodb:
+      database: healthstats
+      uri: mongodb://localhost:27017
 
 application:
   cassandra:
@@ -30,6 +34,8 @@ application:
     server: localhost:29092
     topic:
       logs: service-logs-topic
+  mongo:
+    enabled: false
 
 logging:
   level:

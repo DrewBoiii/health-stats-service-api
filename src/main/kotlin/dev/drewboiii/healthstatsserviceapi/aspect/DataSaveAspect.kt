@@ -2,10 +2,8 @@ package dev.drewboiii.healthstatsserviceapi.aspect
 
 import dev.drewboiii.healthstatsserviceapi.dto.HealthServiceTodayStatsResponse
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
-import dev.drewboiii.healthstatsserviceapi.service.CassandraService
-import dev.drewboiii.healthstatsserviceapi.service.KafkaService
-import dev.drewboiii.healthstatsserviceapi.service.LoggingService.LogLevel
-import mu.KotlinLogging
+import dev.drewboiii.healthstatsserviceapi.service.*
+import mu.KLogging
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.AfterReturning
 import org.aspectj.lang.annotation.Aspect
@@ -13,13 +11,10 @@ import org.aspectj.lang.reflect.MethodSignature
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
 
-private val logger = KotlinLogging.logger { }
-
 @Aspect
 @Component
-@ConditionalOnProperty(name = ["application.cassandra.enabled"], havingValue = "true", matchIfMissing = true)
-class CassandraSaveAspect(
-    private val cassandraService: CassandraService,
+class DataSaveAspect(
+    private val saveService: DataAspectSaveService,
     private val kafkaService: KafkaService?
 ) {
 
@@ -35,10 +30,10 @@ class CassandraSaveAspect(
         val buildArgs = parameterNames.zip(args.map { it as String }).toMap()
 
         buildArgs["providerName"]?.let {
-            cassandraService.saveDayStats(it, todayStats)
+            saveService.saveDayStats(it, todayStats)
             val message = "Day statistics for $it were saved."
             logger.info { message }
-            kafkaService?.sendLog(message, LogLevel.INFO)
+            kafkaService?.sendLog(message, LoggingService.LogLevel.INFO)
         }
     }
 
@@ -54,11 +49,13 @@ class CassandraSaveAspect(
         val buildArgs = parameterNames.zip(args.map { it as String }).toMap()
 
         buildArgs["providerName"]?.let {
-            cassandraService.saveAvailableCountries(HealthStatsProviderType.valueOf(it), countries)
+            saveService.saveAvailableCountries(HealthStatsProviderType.valueOf(it), countries)
             val message = "Available countries for $it were saved."
             logger.info { message }
-            kafkaService?.sendLog(message, LogLevel.INFO)
+            kafkaService?.sendLog(message, LoggingService.LogLevel.INFO)
         }
     }
+
+    companion object: KLogging()
 
 }

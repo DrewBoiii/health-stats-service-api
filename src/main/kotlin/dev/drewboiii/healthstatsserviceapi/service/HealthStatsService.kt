@@ -6,10 +6,8 @@ import dev.drewboiii.healthstatsserviceapi.exception.UnknownProviderException
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProvider
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
 import kotlinx.coroutines.*
-import mu.KotlinLogging
+import mu.KLogging
 import org.springframework.stereotype.Service
-
-private val logger = KotlinLogging.logger {}
 
 @Service
 class HealthStatsService(
@@ -67,4 +65,5 @@ class HealthStatsService(
 
     private fun getProvidersMap(): Map<String, HealthStatsProvider> = providers.associateBy { it.getProviderName() }
 
+    companion object: KLogging()
 }

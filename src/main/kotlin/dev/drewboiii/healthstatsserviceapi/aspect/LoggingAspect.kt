@@ -2,7 +2,7 @@ package dev.drewboiii.healthstatsserviceapi.aspect
 
 import dev.drewboiii.healthstatsserviceapi.service.KafkaService
 import dev.drewboiii.healthstatsserviceapi.service.LoggingService
-import mu.KotlinLogging
+import mu.KLogging
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
@@ -10,8 +10,6 @@ import org.aspectj.lang.reflect.MethodSignature
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
-
-private val logger = KotlinLogging.logger { }
 
 @Aspect
 @Component
@@ -53,4 +51,5 @@ class LoggingAspect(
         kafkaService?.sendLog(message, LoggingService.LogLevel.INFO)
     }
 
+    companion object : KLogging()
 }

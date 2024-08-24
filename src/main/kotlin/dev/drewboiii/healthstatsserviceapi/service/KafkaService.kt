@@ -2,7 +2,7 @@ package dev.drewboiii.healthstatsserviceapi.service
 
 import dev.drewboiii.healthstatsserviceapi.config.properties.AppKafkaPropertiesMap
 import dev.drewboiii.healthstatsserviceapi.dto.LogDto
-import mu.KotlinLogging
+import mu.KLogging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.http.HttpStatus
@@ -10,8 +10,6 @@ import org.springframework.kafka.support.KafkaHeaders
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.LocalTime
-
-private val logger = KotlinLogging.logger { }
 
 @Service
 @ConditionalOnProperty(name = ["application.kafka.enabled"], havingValue = "true", matchIfMissing = true)
@@ -70,4 +68,5 @@ class KafkaService(
         }
     }
 
+    companion object: KLogging()
 }

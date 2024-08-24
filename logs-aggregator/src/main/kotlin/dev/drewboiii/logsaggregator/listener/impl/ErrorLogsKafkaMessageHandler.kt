@@ -2,12 +2,10 @@ package dev.drewboiii.logsaggregator.listener.impl
 
 import dev.drewboiii.logsaggregator.dto.LogDto
 import dev.drewboiii.logsaggregator.listener.KafkaMessageHandler
-import mu.KotlinLogging
+import mu.KLogging
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.stereotype.Component
-
-private val log = KotlinLogging.logger {}
 
 @Component
 @ConditionalOnBean(name = ["serviceErrorLogsKafkaListenerContainerFactory"])
@@ -20,7 +18,9 @@ class ErrorLogsKafkaMessageHandler : KafkaMessageHandler<LogDto> {
         concurrency = "2"
     )
     override fun handleMessage(message: LogDto) {
-        log.info { "Treat as error: $message" }
+        logger.info { "Treat as error: $message" }
     }
+
+    companion object : KLogging()
 
 }

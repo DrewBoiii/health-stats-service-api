@@ -1,1 +1,5 @@
+COVID19 Provider:
 covid-193.p.rapidapi.com - 512a8ec25cmsh69c0e664045c119p1fb528jsn0f5deea831cf
+
+System Environment Variables:
+HEALTH_STATS_SERVICE_APIHOST=covid-193.p.rapidapi.com;HEALTH_STATS_SERVICE_APIKEY=512a8ec25cmsh69c0e664045c119p1fb528jsn0f5deea831cf;SPRING_PROFILES_ACTIVE=dev
