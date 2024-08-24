@@ -1,0 +1,37 @@
+[
+  {
+    "_id": "d296362f-fe11-492d-baf0-0a7aeafa9b8a",
+    "name": "COVID19",
+    "countries": [
+      {
+        "_id": "23950dd3-c0aa-4a44-b573-ff9745988c94",
+        "name": "Afghanistan"
+      },
+      {
+        "_id": "23950dd3-c0aa-4a44-b573-ff9745988c94",
+        "name": "Afghanistan"
+      }
+    ]
+  }
+]
+
+db.providers.update(
+  {
+    _id: "d296362f-fe11-492d-baf0-0a7aeafa9b8a",
+    "countries._id": {
+      "$nin": ["23950dd3-c0aa-4a44-b573-ff9745988c91"]
+    }
+  },
+  {
+    $addToSet: {
+      "countries": {
+        $each: [ {_id: "23950dd3-c0aa-4a44-b573-ff9745988c91", name: "EEE"} ],
+      }
+    }
+  }
+)
+
+Задача:
+Добавить страну в провайдер
+Дубликатов быть не должно
+При реализации использовать Criteria
