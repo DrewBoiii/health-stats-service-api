@@ -31,7 +31,7 @@ data class DayStatisticsEntity(
 
 @Document("providers")
 @CompoundIndexes(
-    CompoundIndex(def = "{'_id': 1, 'countries.name': 1}", unique = true)
+    CompoundIndex(def = "{'name': 1, 'countries.name': 1}", unique = true)
 )
 data class ProviderEntity(
     @field:[Id Indexed]
