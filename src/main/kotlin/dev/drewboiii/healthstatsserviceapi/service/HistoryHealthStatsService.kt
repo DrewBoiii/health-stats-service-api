@@ -69,5 +69,11 @@ class HistoryHealthStatsService(
         return mongoService?.appendNewCountryToProvider(provider, request.countries)?.toProviderResponse()
     }
 
+    fun getProviderCountries(provider: String): ProviderResponse =
+        mongoService?.getProviders()
+            ?.find { it.name.name == provider }
+            ?.toProviderResponse(provider)
+            ?: throw UnknownProviderException(provider)
+
     companion object : KLogging()
 }

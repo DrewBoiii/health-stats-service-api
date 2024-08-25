@@ -4,6 +4,7 @@ import dev.drewboiii.healthstatsserviceapi.dto.HistoryStatisticsByDay
 import dev.drewboiii.healthstatsserviceapi.dto.ProvidersResponse
 import dev.drewboiii.healthstatsserviceapi.service.HistoryHealthStatsService
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -24,5 +25,8 @@ class HealthStatsHistoryController(
 
     @GetMapping("/providers")
     fun getProviders(): ProvidersResponse = historyHealthStatsService.getProviders()
+
+    @GetMapping("/providers/{provider}")
+    fun getProviderCountries(@PathVariable provider: String) = historyHealthStatsService.getProviderCountries(provider)
 
 }

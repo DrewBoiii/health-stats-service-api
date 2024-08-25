@@ -48,6 +48,16 @@ data class NewCountriesToProviderRequest(
     val countries: Set<String>
 )
 
+data class ProviderCountriesResponse(
+    val provider: String,
+    val countries: List<Country>
+) {
+    data class Country(
+        val name: String,
+        val continent: String? = null
+    )
+}
+
 fun DayStatistics.toHistoryStatisticsByDay() = HistoryStatisticsByDay(
     reqDate = this.reqDate,
     provider = this.provider,
@@ -90,6 +100,16 @@ fun List<ProviderEntity>.toProvidersResponse() = ProvidersResponse(
 
 fun ProviderEntity.toProviderResponse() = ProviderResponse(
     name = this.name.name,
+    countries = this.countries.map {
+        ProviderResponse.Country(
+            name = it.name,
+            continent = it.continent
+        )
+    }
+)
+
+fun ProviderEntity.toProviderResponse(provider: String) = ProviderResponse(
+    name = provider,
     countries = this.countries.map {
         ProviderResponse.Country(
             name = it.name,
