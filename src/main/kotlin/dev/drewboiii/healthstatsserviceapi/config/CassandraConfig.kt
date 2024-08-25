@@ -11,11 +11,13 @@ import org.springframework.core.io.ClassPathResource
 import org.springframework.data.cassandra.config.AbstractCassandraConfiguration
 import org.springframework.data.cassandra.config.CqlSessionFactoryBean
 import org.springframework.data.cassandra.core.convert.CassandraCustomConversions
+import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories
 import org.springframework.util.StreamUtils
 import java.nio.charset.StandardCharsets
 
 
 @Configuration
+@EnableCassandraRepositories
 @EnableConfigurationProperties(CassandraProperties::class)
 @ConditionalOnProperty(name = ["application.cassandra.enabled"], havingValue = "true", matchIfMissing = true)
 class CassandraConfig(
