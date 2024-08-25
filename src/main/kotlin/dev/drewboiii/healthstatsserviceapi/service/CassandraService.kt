@@ -2,10 +2,10 @@ package dev.drewboiii.healthstatsserviceapi.service
 
 import dev.drewboiii.healthstatsserviceapi.dto.HealthServiceTodayStatsResponse
 import dev.drewboiii.healthstatsserviceapi.dto.toCassandraModel
-import dev.drewboiii.healthstatsserviceapi.persistence.CountriesCassandraRepository
-import dev.drewboiii.healthstatsserviceapi.persistence.Countries
-import dev.drewboiii.healthstatsserviceapi.persistence.DayStatistics
-import dev.drewboiii.healthstatsserviceapi.persistence.DayStatisticsCassandraRepository
+import dev.drewboiii.healthstatsserviceapi.persistence.repository.CountriesCassandraRepository
+import dev.drewboiii.healthstatsserviceapi.persistence.model.Countries
+import dev.drewboiii.healthstatsserviceapi.persistence.model.DayStatistics
+import dev.drewboiii.healthstatsserviceapi.persistence.repository.DayStatisticsCassandraRepository
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service

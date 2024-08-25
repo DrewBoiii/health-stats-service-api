@@ -1,8 +1,8 @@
 package dev.drewboiii.healthstatsserviceapi.dto
 
-import dev.drewboiii.healthstatsserviceapi.persistence.DayStatistics
-import dev.drewboiii.healthstatsserviceapi.persistence.DayStatisticsEntity
-import dev.drewboiii.healthstatsserviceapi.persistence.ProviderEntity
+import dev.drewboiii.healthstatsserviceapi.persistence.model.DayStatistics
+import dev.drewboiii.healthstatsserviceapi.persistence.model.DayStatisticsEntity
+import dev.drewboiii.healthstatsserviceapi.persistence.model.ProviderEntity
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
 import java.time.LocalDate
 
@@ -43,7 +43,7 @@ data class ProviderResponse(
     )
 }
 
-data class NewCountryToProviderRequest(
+data class NewCountriesToProviderRequest(
     val provider: String,
     val countries: Set<String>
 )

@@ -1,4 +1,4 @@
-package dev.drewboiii.healthstatsserviceapi.persistence
+package dev.drewboiii.healthstatsserviceapi.persistence.model
 
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
 import org.springframework.data.annotation.Id

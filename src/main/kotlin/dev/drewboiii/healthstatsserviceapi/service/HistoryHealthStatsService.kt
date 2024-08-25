@@ -59,8 +59,15 @@ class HistoryHealthStatsService(
     fun getProviders(): ProvidersResponse =
         mongoService?.getProviders()?.toProvidersResponse() ?: ProvidersResponse(providers = emptyList())
 
-    fun appendCountryToProvider(request: NewCountryToProviderRequest): ProviderResponse? =
-        mongoService?.appendNewCountryToProvider(request.provider, request.countries)?.toProviderResponse()
+    fun appendCountryToProvider(request: NewCountriesToProviderRequest): ProviderResponse? {
+        val provider = request.provider
+
+        if (provider !in healthStatsService.getAvailableProviders()) {
+            throw UnknownProviderException(provider)
+        }
+
+        return mongoService?.appendNewCountryToProvider(provider, request.countries)?.toProviderResponse()
+    }
 
     companion object : KLogging()
 }

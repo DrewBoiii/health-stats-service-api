@@ -1,5 +1,7 @@
-package dev.drewboiii.healthstatsserviceapi.persistence
+package dev.drewboiii.healthstatsserviceapi.persistence.repository
 
+import dev.drewboiii.healthstatsserviceapi.persistence.model.DayStatisticsEntity
+import dev.drewboiii.healthstatsserviceapi.persistence.model.ProviderEntity
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.data.mongodb.repository.Query

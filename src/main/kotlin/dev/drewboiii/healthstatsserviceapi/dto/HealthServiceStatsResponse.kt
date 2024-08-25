@@ -1,8 +1,8 @@
 package dev.drewboiii.healthstatsserviceapi.dto
 
 import com.fasterxml.jackson.annotation.JsonInclude
-import dev.drewboiii.healthstatsserviceapi.persistence.DayStatistics
-import dev.drewboiii.healthstatsserviceapi.persistence.DayStatisticsEntity
+import dev.drewboiii.healthstatsserviceapi.persistence.model.DayStatistics
+import dev.drewboiii.healthstatsserviceapi.persistence.model.DayStatisticsEntity
 import dev.drewboiii.healthstatsserviceapi.provider.HealthStatsProviderType
 import java.time.LocalDate
 import java.util.*

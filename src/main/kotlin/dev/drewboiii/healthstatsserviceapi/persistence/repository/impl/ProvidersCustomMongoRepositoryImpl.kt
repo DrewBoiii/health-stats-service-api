@@ -1,8 +1,8 @@
-package dev.drewboiii.healthstatsserviceapi.persistence.impl
+package dev.drewboiii.healthstatsserviceapi.persistence.repository.impl
 
-import dev.drewboiii.healthstatsserviceapi.persistence.CountryEntity
-import dev.drewboiii.healthstatsserviceapi.persistence.ProviderEntity
-import dev.drewboiii.healthstatsserviceapi.persistence.ProvidersCustomMongoRepository
+import dev.drewboiii.healthstatsserviceapi.persistence.model.CountryEntity
+import dev.drewboiii.healthstatsserviceapi.persistence.model.ProviderEntity
+import dev.drewboiii.healthstatsserviceapi.persistence.repository.ProvidersCustomMongoRepository
 import org.springframework.data.mongodb.core.FindAndModifyOptions
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria.where

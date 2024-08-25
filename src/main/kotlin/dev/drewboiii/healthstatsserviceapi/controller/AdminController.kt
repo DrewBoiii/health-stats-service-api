@@ -1,6 +1,6 @@
 package dev.drewboiii.healthstatsserviceapi.controller
 
-import dev.drewboiii.healthstatsserviceapi.dto.NewCountryToProviderRequest
+import dev.drewboiii.healthstatsserviceapi.dto.NewCountriesToProviderRequest
 import dev.drewboiii.healthstatsserviceapi.dto.ProviderResponse
 import dev.drewboiii.healthstatsserviceapi.service.CacheService
 import dev.drewboiii.healthstatsserviceapi.service.HistoryHealthStatsService
@@ -21,7 +21,7 @@ class AdminController(
     fun invalidateCashes() = cacheService?.evictAllCaches()
 
     @PostMapping("/countries/add")
-    fun addNewCountryToProvider(@RequestBody @Valid request: NewCountryToProviderRequest): ProviderResponse? =
+    fun addNewCountryToProvider(@RequestBody @Valid request: NewCountriesToProviderRequest): ProviderResponse? =
         historyHealthStatsService.appendCountryToProvider(request)
 
 }
